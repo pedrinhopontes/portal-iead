@@ -84,12 +84,20 @@ export default async function CampanhaDoPainel({ params }: Props) {
           <h2 className="font-serif text-2xl font-semibold">
             Participantes <span className="text-tinta-suave">({participantes.length})</span>
           </h2>
-          <Link
-            href={`/admin/apadrinhamento/${id}/participante/novo`}
-            className="rounded-full bg-bordo px-5 py-2.5 text-sm font-bold text-white hover:bg-bordo-escuro"
-          >
-            Novo participante
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href={`/admin/apadrinhamento/${id}/fotos`}
+              className="rounded-full border border-linha px-5 py-2.5 text-sm font-semibold hover:border-bordo hover:text-bordo"
+            >
+              Fotos dos participantes
+            </Link>
+            <Link
+              href={`/admin/apadrinhamento/${id}/participante/novo`}
+              className="rounded-full bg-bordo px-5 py-2.5 text-sm font-bold text-white hover:bg-bordo-escuro"
+            >
+              Novo participante
+            </Link>
+          </div>
         </div>
 
         <p className="mt-2 flex items-center gap-2 text-xs text-bordo-escuro">

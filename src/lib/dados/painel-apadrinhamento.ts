@@ -46,8 +46,17 @@ export type ParticipanteAdmin = {
   tamanho_calcado: string | null;
   sugestao_presente: string | null;
   estado: EstadoParticipante;
+  /** Caminho da foto: `/imagens/...` enquanto for local, URL depois de enviada. */
+  foto: { caminho: string } | null;
   participantes_dados_restritos: DadosRestritos | null;
 };
+
+/** O cliente tipa relação embutida como lista; aqui é sempre uma foto só. */
+function comFoto(linha: unknown): ParticipanteAdmin {
+  const p = linha as ParticipanteAdmin & { foto: unknown };
+  const foto = Array.isArray(p.foto) ? p.foto[0] : p.foto;
+  return { ...p, foto: (foto as ParticipanteAdmin["foto"]) ?? null };
+}
 
 export type Reserva = {
   id: string;
@@ -105,20 +114,20 @@ export async function participantesDoPainel(campanhaId: string): Promise<Partici
   const supabase = await criarClienteServidor();
   const { data } = await supabase
     .from("participantes")
-    .select("*, participantes_dados_restritos(*)")
+    .select("*, foto:midias(caminho), participantes_dados_restritos(*)")
     .eq("campanha_id", campanhaId)
     .order("codigo_publico");
-  return (data as ParticipanteAdmin[]) ?? [];
+  return (data ?? []).map(comFoto);
 }
 
 export async function participanteDoPainel(id: string): Promise<ParticipanteAdmin | null> {
   const supabase = await criarClienteServidor();
   const { data } = await supabase
     .from("participantes")
-    .select("*, participantes_dados_restritos(*)")
+    .select("*, foto:midias(caminho), participantes_dados_restritos(*)")
     .eq("id", id)
     .maybeSingle();
-  return (data as ParticipanteAdmin) ?? null;
+  return data ? comFoto(data) : null;
 }
 
 export async function reservasDaCampanha(campanhaId: string): Promise<Reserva[]> {
