@@ -15,7 +15,7 @@ sem a aprovação do Instituto — o site do Canva continua no ar até o último
 | Dados de crianças | leitura anônima de cada tabela sensível | 0 registros devolvidos |
 | Dados de doadores | leitura anônima após criar uma doação | 0 registros devolvidos |
 | Escrita indevida | tentativa anônima de gravar balanço e documento | 401 nos dois casos |
-| Expiração da reserva | relógio adiantado + `expirar_reservas()` | participante voltou para a vitrine |
+| Expiração da reserva | relógio adiantado + `expirar_reservas()` | participante voltou para a lista |
 | Build de produção | `npm run build` | 40 rotas compiladas |
 
 A auditoria de acessibilidade pegou dois defeitos que ninguém tinha visto: o
@@ -49,7 +49,7 @@ Nenhuma delas impede continuar construindo. Todas impedem ir ao ar.
 |---|---|---|
 | 1 | **Encarregado de dados (DPO)** | A política de privacidade não pode ser publicada sem o responsável indicado |
 | 2 | **Termos de autorização das fotos** | 9 das 12 fotos do acervo mostram crianças identificáveis |
-| 3 | **Chave PIX oficial** | Sem ela o site registra a doação mas não gera o pagamento |
+| ~~3~~ | ~~**Chave PIX oficial**~~ — resolvida | Configurada e o código validado campo a campo, CRC conferido contra o padrão |
 | 4 | **Transferir o Supabase para conta do IEAD** | Os dados do Instituto não devem depender de conta pessoal |
 | 5 | **Plano pago do Supabase** | No gratuito o banco hiberna e o site sai do ar |
 | 6 | **Slug real de "Quem Somos" no site atual** | Sem ele, esse endereço antigo vira 404 depois da virada |

@@ -68,3 +68,16 @@ public/imagens/acervo/acervo-2023-1.jpg
 public/imagens/acervo/acervo-2024-1.jpg
 public/imagens/acervo/acervo-2025-1.jpg
 public/imagens/acervo/acervo-natal-bastidores.jpg
+
+# -----------------------------------------------------------------------------
+# Fotos dos participantes do apadrinhamento.
+#
+# Os termos de autorização estão assinados e arquivados no Instituto, e as
+# mesmas fotos já são publicadas pelo IEAD na campanha. Ainda assim elas não
+# entram no repositório: o lugar delas é o armazenamento do Supabase, de onde
+# podem ser APAGADAS. Um commit não pode.
+#
+# Estas crianças serão adolescentes e adultos um dia. O que o Instituto publica
+# hoje ele pode tirar do ar amanhã; o que entra no histórico do Git, não.
+# -----------------------------------------------------------------------------
+public/imagens/apadrinhamento/

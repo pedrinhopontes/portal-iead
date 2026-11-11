@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 const passos = [
-  "Veja os participantes disponíveis na vitrine da campanha.",
+  "Veja os participantes disponíveis na lista da campanha.",
   "Escolha um participante e faça a reserva.",
   "Consulte os tamanhos e a sugestão de presente.",
   "Decida entre entregar o presente ou contribuir financeiramente.",
@@ -219,7 +219,7 @@ export default async function Apadrinhamento() {
               </p>
               <p className="flex gap-3">
                 <Icone nome="cadeado" className="mt-1 h-5 w-5 shrink-0" />
-                Ao reservar, o participante sai da vitrine na hora: duas pessoas nunca apadrinham a mesma
+                Ao reservar, o participante sai da lista na hora: duas pessoas nunca apadrinham a mesma
                 criança.
               </p>
             </div>

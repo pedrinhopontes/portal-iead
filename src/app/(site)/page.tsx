@@ -207,9 +207,10 @@ export default async function PaginaInicial() {
                 Proteção das crianças
               </p>
               <p className="mt-3 text-sm leading-relaxed text-white/85">
-                A vitrine de apadrinhamento identifica cada participante por um código, com apenas a idade, os
-                tamanhos e a sugestão de presente. Nome completo, endereço, escola e contatos nunca são
-                publicados, e fotografias só aparecem mediante autorização registrada dos responsáveis.
+                No apadrinhamento, cada criança aparece com o primeiro nome, a idade, os tamanhos e o que
+                gostaria de ganhar — o necessário para escolher o presente certo. Sobrenome, endereço, escola
+                e contatos nunca são publicados. As fotografias só vão ao ar com o termo de autorização
+                assinado pelo responsável, e o sistema recusa o cadastro sem esse registro.
               </p>
               <p className="mt-4 text-sm leading-relaxed text-white/85">
                 A reserva de um participante é exclusiva: assim que alguém reserva, ninguém mais consegue

@@ -76,12 +76,14 @@ provedor não mexe no resto do site. **Dados completos de cartão nunca são arm
 
 ### Proteção de crianças e adolescentes
 
-1. A vitrine pública expõe apenas código, primeiro nome ou iniciais, idade, tamanhos e sugestão de
-   presente.
-2. Nome completo, responsável e contato ficam em `participantes_dados_restritos`, tabela separada com
+1. A lista pública expõe primeiro nome, foto, idade, tamanhos, sugestão de presente e o recado da
+   criança. É o que a campanha do Instituto já publica, e é o necessário para alguém escolher e
+   comprar o presente certo.
+2. Sobrenome, responsável e contato ficam em `participantes_dados_restritos`, tabela separada com
    RLS limitada a `admin` e `coordenador`. As páginas públicas nem consultam essa tabela.
-3. Foto só é publicada com `autorizacao_imagem = true` **e** o termo assinado anexado. O padrão é não
-   publicar.
+3. A foto é gravada em `midias` com `tem_menores = true`, e a restrição
+   `midia_menor_exige_autorizacao` recusa esse cadastro sem a referência do termo assinado. A trava
+   está no banco, não na tela: nenhuma consulta nova pode esquecê-la.
 4. Consentimento, finalidade e data ficam registrados.
 
 ### Anti-duplicidade da reserva

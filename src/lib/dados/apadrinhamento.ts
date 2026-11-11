@@ -5,8 +5,27 @@ import type { Campanha, ParticipantePublico } from "./apadrinhamento-tipos";
 export type { Campanha, ParticipantePublico, EstadoParticipante } from "./apadrinhamento-tipos";
 export { rotuloEstado, formatarPrazo, formatarValor } from "./apadrinhamento-tipos";
 
+/**
+ * O que o site pede do participante.
+ *
+ * Nomeado campo a campo de propósito, nunca `*`: assim, se alguém acrescentar
+ * uma coluna sensível à tabela amanhã, ela não vaza para o site sozinha.
+ *
+ * A foto vem embutida de `midias` pela chave estrangeira `foto_id`, e só
+ * existe com o termo de autorização registrado — a restrição do banco recusa
+ * o cadastro sem ele.
+ */
 const CAMPOS_PUBLICOS =
-  "id, codigo_publico, idade, projeto, genero, tamanho_roupa, tamanho_calcado, sugestao_presente, estado";
+  "id, codigo_publico, nome_exibicao, idade, projeto, genero, tamanho_roupa, " +
+  "tamanho_calcado, sugestao_presente, observacao_publica, estado, " +
+  "foto:midias(caminho, alt)";
+
+/** O cliente tipa relação embutida como lista; aqui é sempre uma foto só. */
+function normalizar(linha: unknown): ParticipantePublico {
+  const p = linha as ParticipantePublico & { foto: unknown };
+  const foto = Array.isArray(p.foto) ? p.foto[0] : p.foto;
+  return { ...p, foto: (foto as ParticipantePublico["foto"]) ?? null };
+}
 
 export async function campanhaVigente(): Promise<Campanha | null> {
   if (!supabaseConfigurado) return null;
@@ -42,7 +61,7 @@ export async function campanhasAnteriores(): Promise<Campanha[]> {
 /**
  * Participantes de uma campanha.
  *
- * Antes de listar, devolve à vitrine quem teve a reserva vencida. É barato e
+ * Antes de listar, devolve à lista quem teve a reserva vencida. É barato e
  * garante que ninguém veja como "reservado" alguém que já está livre de novo.
  * Em produção, convém também agendar `expirar_reservas()` no banco.
  */
@@ -58,7 +77,7 @@ export async function participantesDaCampanha(campanhaId: string): Promise<Parti
     .eq("campanha_id", campanhaId)
     .order("codigo_publico");
 
-  return (data as ParticipantePublico[]) ?? [];
+  return (data ?? []).map(normalizar);
 }
 
 export async function participantePorId(id: string): Promise<ParticipantePublico | null> {
@@ -69,5 +88,5 @@ export async function participantePorId(id: string): Promise<ParticipantePublico
     .select(CAMPOS_PUBLICOS)
     .eq("id", id)
     .maybeSingle();
-  return (data as ParticipantePublico) ?? null;
+  return data ? normalizar(data) : null;
 }

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-// A vitrine muda a cada reserva: nunca servir uma versão guardada em cache.
+// A lista muda a cada reserva: nunca servir uma versão guardada em cache.
 export const dynamic = "force-dynamic";
 
 export default async function Participantes() {
@@ -25,7 +25,7 @@ export default async function Participantes() {
       <CapaPagina
         sobretitulo={campanha ? `Campanha ${campanha.ano}` : "Apadrinhamento"}
         titulo="Escolha um participante"
-        texto="Cada participante é identificado por um código. Você verá apenas a idade, os tamanhos e a sugestão de presente — o suficiente para escolher bem, sem expor nenhuma criança."
+        texto="Cada criança aparece com o primeiro nome, a idade, os tamanhos de roupa e calçado e o que gostaria de ganhar — o necessário para você escolher e comprar o presente certo."
       />
 
       <Secao fundo="areia">
@@ -47,9 +47,10 @@ export default async function Participantes() {
                 )}
 
                 <Aviso titulo="O que nunca aparece nesta página" tom="protecao">
-                  Nome completo, endereço, escola, nome dos responsáveis e qualquer contato pessoal ficam
-                  em tabela separada do banco de dados, acessível apenas à coordenação. Fotografias só
-                  são publicadas com autorização registrada dos responsáveis.
+                  Sobrenome, endereço, escola, nome dos responsáveis e qualquer contato pessoal ficam em
+                  tabela separada do banco de dados, acessível apenas à coordenação. As fotografias são
+                  publicadas com o termo de autorização de imagem assinado pelo responsável e arquivado
+                  no Instituto.
                 </Aviso>
               </div>
 
@@ -61,7 +62,7 @@ export default async function Participantes() {
               </div>
 
               <Aviso titulo="Como funciona a reserva" tom="informativo" className="mt-12">
-                Ao escolher um participante, ele sai da vitrine na hora e fica reservado para você por{" "}
+                Ao escolher um participante, ele sai da lista na hora e fica reservado para você por{" "}
                 {campanha.horas_reserva} horas. Nesse prazo, a equipe do Instituto entra em contato para
                 confirmar. Se a confirmação não acontecer, a reserva vence sozinha e o participante volta
                 para a lista — ninguém fica esperando indefinidamente.

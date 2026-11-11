@@ -88,12 +88,14 @@ export async function salvarParticipante(_anterior: EstadoForm, formData: FormDa
   const publicos = {
     campanha_id: campanhaId,
     codigo_publico: codigo,
+    nome_exibicao: limpar(formData.get("nome_exibicao")),
     idade: Number.isInteger(idade) && idade >= 0 ? idade : null,
     projeto: limpar(formData.get("projeto")),
     genero: limpar(formData.get("genero")) ?? "nao_informado",
     tamanho_roupa: limpar(formData.get("tamanho_roupa")),
     tamanho_calcado: limpar(formData.get("tamanho_calcado")),
     sugestao_presente: limpar(formData.get("sugestao_presente")),
+    observacao_publica: limpar(formData.get("observacao_publica")),
   };
 
   const restritos = {

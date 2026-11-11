@@ -1,10 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Etiqueta } from "@/components/ui/Etiqueta";
 import { Icone } from "@/components/ui/Icone";
 import {
+  comoChamar,
+  idadeEmTexto,
   rotuloEstado,
   type EstadoParticipante,
   type ParticipantePublico,
@@ -78,16 +81,29 @@ export function ListaParticipantes({
           return (
             <li
               key={participante.id}
-              className="flex flex-col rounded-2xl border border-linha bg-white p-6"
+              className="flex flex-col overflow-hidden rounded-2xl border border-linha bg-white"
             >
+              {participante.foto && (
+                <div className="relative aspect-[3/4] w-full bg-creme">
+                  <Image
+                    src={participante.foto.caminho}
+                    alt={participante.foto.alt}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
+                    className="object-cover object-top"
+                  />
+                </div>
+              )}
+
+              <div className="flex flex-1 flex-col p-6">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="font-serif text-2xl font-semibold text-bordo">
-                    {participante.codigo_publico}
+                    {comoChamar(participante)}
                   </p>
                   <p className="text-sm text-tinta-suave">
-                    {participante.idade !== null && `${participante.idade} anos`}
-                    {participante.idade !== null && participante.projeto && " · "}
+                    {idadeEmTexto(participante.idade)}
+                    {idadeEmTexto(participante.idade) && participante.projeto && " · "}
                     {participante.projeto}
                   </p>
                 </div>
@@ -96,7 +112,13 @@ export function ListaParticipantes({
                 </Etiqueta>
               </div>
 
-              <dl className="mt-5 space-y-2 text-sm">
+              {participante.observacao_publica && (
+                <p className="mt-3 rounded-lg bg-areia px-3 py-2 text-sm text-tinta-suave">
+                  {participante.observacao_publica}
+                </p>
+              )}
+
+              <dl className="mt-5 space-y-2 pb-6 text-sm">
                 <div className="flex justify-between gap-3 border-b border-linha/70 pb-2">
                   <dt className="text-tinta-suave">Tamanho da roupa</dt>
                   <dd className="font-semibold">{participante.tamanho_roupa ?? "—"}</dd>
@@ -106,25 +128,32 @@ export function ListaParticipantes({
                   <dd className="font-semibold">{participante.tamanho_calcado ?? "—"}</dd>
                 </div>
                 <div className="flex justify-between gap-3">
-                  <dt className="text-tinta-suave">Sugestão</dt>
-                  <dd className="text-right font-semibold">{participante.sugestao_presente ?? "—"}</dd>
+                  <dt className="text-tinta-suave">Gostaria de ganhar</dt>
+                  <dd className="text-right font-semibold">
+                    {participante.sugestao_presente ?? (
+                      <span className="font-normal text-tinta-suave">a combinar</span>
+                    )}
+                  </dd>
                 </div>
               </dl>
 
               {livre && campanhaAberta ? (
                 <Link
                   href={`/apadrinhamento/apadrinhar/${participante.id}`}
-                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-bordo px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-bordo-escuro"
+                  className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-bordo px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-bordo-escuro"
                 >
                   <Icone nome="presente" className="h-4 w-4" />
-                  Quero apadrinhar
+                  Quero apadrinhar {comoChamar(participante)}
                 </Link>
               ) : (
-                <span className="mt-6 inline-flex items-center justify-center gap-2 rounded-full border border-linha bg-areia px-5 py-3 text-sm font-semibold text-tinta-suave">
+                <span
+                  className="mt-auto inline-flex items-center justify-center gap-2 rounded-full border border-linha bg-areia px-5 py-3 text-sm font-semibold text-tinta-suave"
+                >
                   <Icone nome="check" className="h-4 w-4" />
                   {livre ? "Campanha fechada" : rotuloEstado[participante.estado]}
                 </span>
               )}
+              </div>
             </li>
           );
         })}

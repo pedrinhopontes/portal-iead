@@ -119,7 +119,7 @@ export function FormularioCampanha({ campanha }: { campanha: Campanha | null }) 
             className={campo}
           />
           <span className="text-xs font-normal text-tinta-suave">
-            Passado esse prazo sem confirmação, o participante volta para a vitrine.
+            Passado esse prazo sem confirmação, o participante volta para a lista.
           </span>
         </label>
       </div>
@@ -128,7 +128,7 @@ export function FormularioCampanha({ campanha }: { campanha: Campanha | null }) 
         Aviso exibido no site
         <textarea name="observacao" rows={2} defaultValue={campanha?.observacao ?? ""} className={campo} />
         <span className="text-xs font-normal text-tinta-suave">
-          Aparece como alerta na vitrine. Deixe em branco quando a lista for real — hoje ele avisa que os
+          Aparece como alerta na lista. Deixe em branco quando a lista for real — hoje ele avisa que os
           participantes são de demonstração.
         </span>
       </label>

@@ -42,23 +42,45 @@ export type Campanha = {
 };
 
 /**
- * Participante como o público o vê.
+ * A foto do participante, como ela sai do banco para a lista.
  *
- * Esta forma é deliberadamente pobre: código, idade, projeto, tamanhos e sugestão.
- * Nome, responsável e contato vivem em outra tabela, que nenhuma página pública
- * consulta.
+ * Só existe se o termo de autorização de imagem da criança estiver registrado:
+ * a foto é gravada em `midias` com `tem_menores = true`, e a restrição
+ * `midia_menor_exige_autorizacao` recusa esse cadastro sem a referência do
+ * termo. Por isso a lista não precisa conferir nada na hora de exibir —
+ * se a foto chegou até aqui, o termo existe.
  */
+export type FotoParticipante = {
+  caminho: string;
+  alt: string;
+};
+
 export type ParticipantePublico = {
   id: string;
   codigo_publico: string;
+  nome_exibicao: string | null;
   idade: number | null;
   projeto: string | null;
   genero: "menina" | "menino" | "nao_informado" | null;
   tamanho_roupa: string | null;
   tamanho_calcado: string | null;
   sugestao_presente: string | null;
+  observacao_publica: string | null;
   estado: EstadoParticipante;
+  foto: FotoParticipante | null;
 };
+
+/** Como a criança é chamada no site: o primeiro nome, ou o código se faltar. */
+export function comoChamar(p: ParticipantePublico): string {
+  return p.nome_exibicao?.trim() || p.codigo_publico;
+}
+
+/** "14 anos", "1 ano", ou null quando a idade não foi informada. */
+export function idadeEmTexto(idade: number | null): string | null {
+  if (idade === null) return null;
+  if (idade === 0) return null; // bebês: a idade real vai no recado
+  return idade === 1 ? "1 ano" : `${idade} anos`;
+}
 
 export function formatarPrazo(valor: string | null): string | null {
   if (!valor) return null;

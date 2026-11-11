@@ -37,6 +37,8 @@ export type ParticipanteAdmin = {
   id: string;
   campanha_id: string;
   codigo_publico: string;
+  nome_exibicao: string | null;
+  observacao_publica: string | null;
   idade: number | null;
   projeto: string | null;
   genero: "menina" | "menino" | "nao_informado" | null;

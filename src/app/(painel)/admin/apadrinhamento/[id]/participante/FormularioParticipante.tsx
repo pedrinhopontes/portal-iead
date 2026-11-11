@@ -33,25 +33,42 @@ export function FormularioParticipante({
         </legend>
 
         <p className="text-sm text-tinta-suave">
-          Tudo neste bloco fica visível para qualquer visitante da vitrine.
+          Tudo neste bloco fica visível para qualquer visitante da lista.
         </p>
 
-        <div className="mt-5 grid gap-5 sm:grid-cols-[180px_1fr]">
+        <div className="mt-5 grid gap-5 sm:grid-cols-[1fr_180px]">
           <label className="flex flex-col gap-1.5 text-sm font-semibold">
-            Código público
+            Primeiro nome
+            <input
+              name="nome_exibicao"
+              defaultValue={participante?.nome_exibicao ?? ""}
+              placeholder="ex.: Ana Beatriz"
+              className={campo}
+            />
+            <span className="text-xs font-normal text-tinta-suave">
+              É assim que a criança aparece no site. Só o primeiro nome — o nome completo vai no bloco
+              vermelho abaixo e nunca sai de lá.
+            </span>
+          </label>
+
+          <label className="flex flex-col gap-1.5 text-sm font-semibold">
+            Código interno
             <input
               name="codigo_publico"
               required
               defaultValue={participante?.codigo_publico ?? proximoCodigo}
               className={`${campo} font-mono`}
             />
-          </label>
-
-          <label className="flex flex-col gap-1.5 text-sm font-semibold">
-            Projeto
-            <input name="projeto" defaultValue={participante?.projeto ?? ""} className={campo} />
+            <span className="text-xs font-normal text-tinta-suave">
+              Usado para organizar a entrega. Não aparece no site.
+            </span>
           </label>
         </div>
+
+        <label className="mt-5 flex flex-col gap-1.5 text-sm font-semibold">
+          Projeto
+          <input name="projeto" defaultValue={participante?.projeto ?? ""} className={campo} />
+        </label>
 
         <div className="mt-5 grid gap-5 sm:grid-cols-4">
           <label className="flex flex-col gap-1.5 text-sm font-semibold">
@@ -91,12 +108,29 @@ export function FormularioParticipante({
         </div>
 
         <label className="mt-5 flex flex-col gap-1.5 text-sm font-semibold">
-          Sugestão de presente
+          O que gostaria de ganhar
           <input
             name="sugestao_presente"
             defaultValue={participante?.sugestao_presente ?? ""}
             className={campo}
           />
+          <span className="text-xs font-normal text-tinta-suave">
+            Deixe em branco se ainda não foi definido: o site mostra &quot;a combinar&quot;.
+          </span>
+        </label>
+
+        <label className="mt-5 flex flex-col gap-1.5 text-sm font-semibold">
+          Recado da criança
+          <input
+            name="observacao_publica"
+            placeholder="ex.: Não uso vestido"
+            defaultValue={participante?.observacao_publica ?? ""}
+            className={campo}
+          />
+          <span className="text-xs font-normal text-tinta-suave">
+            Aparece no site, logo abaixo do nome. Serve para o que quem compra precisa saber antes de
+            escolher o presente.
+          </span>
         </label>
       </fieldset>
 

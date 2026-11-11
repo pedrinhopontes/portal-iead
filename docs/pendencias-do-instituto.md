@@ -8,9 +8,9 @@ Nada desta lista foi preenchido por suposição.
 | # | Item | Para quê |
 |---|---|---|
 | 1 | **Logo oficial** em SVG ou PNG de alta resolução | Define as cores exatas do site. Hoje a paleta é provisória, amostrada do site atual |
-| 2 | **Chave PIX oficial** e titularidade da conta | Publicar uma chave errada desviaria doações. O campo está em branco de propósito |
-| 3 | **Campanha de apadrinhamento 2026**: título definitivo, banner, prazo de entrega, data e local do evento | A campanha é a prioridade de prazo |
-| 4 | **Lista de participantes do apadrinhamento** — por canal privado, nunca por chat ou e-mail aberto | Substitui a lista de demonstração |
+| ~~2~~ | ~~**Chave PIX oficial**~~ — **RECEBIDA em 11/11/2026** | `iearaujodutra@gmail.com`. Veio no material da campanha e foi confirmada pelo Instituto. Já configurada e validada. Banco, agência e conta não ficam registrados aqui: o site não precisa deles |
+| 3 | **Campanha 2026** — falta só o **prazo de entrega dos presentes** e o **valor da contribuição** | Título, data (19/12/2026, 19h30) e local (Igreja Presbiteriana de Honório Gurgel, Rua Menezes Brum 144) vieram no material. Em 2025 a entrega encerrou em 15/12 e a contribuição era R$ 250 |
+| ~~4~~ | ~~**Lista de participantes**~~ — **RECEBIDA em 11/11/2026** | 41 crianças, extraídas da apresentação oficial da campanha. Substituíram a lista de demonstração |
 
 ## Bloqueiam as próximas etapas
 

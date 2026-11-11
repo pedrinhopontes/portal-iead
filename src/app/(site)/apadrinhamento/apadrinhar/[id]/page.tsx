@@ -101,7 +101,7 @@ export default async function Apadrinhar({ params }: Props) {
                 >
                   <p>
                     {campanhaFechada
-                      ? "Quando a próxima campanha abrir, a vitrine volta a aceitar reservas."
+                      ? "Quando a próxima campanha abrir, a lista volta a aceitar reservas."
                       : "Alguém reservou antes. Mas há outros participantes esperando — escolha outro e o Natal dele também fica garantido."}
                   </p>
                   <Botao href="/apadrinhamento/participantes" variante="secundario" comSeta className="mt-5">

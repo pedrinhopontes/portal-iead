@@ -11,7 +11,7 @@ const SITE = "https://iearaujodutra.com.br";
  * nelas. Aqui ele recebe a lista pronta, incluindo cada projeto, cada notícia e
  * cada campanha de apadrinhamento.
  *
- * Fica de fora o que não deve ser indexado: painel, login, vitrine de
+ * Fica de fora o que não deve ser indexado: painel, login, lista de
  * participantes e o formulário de apadrinhamento.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

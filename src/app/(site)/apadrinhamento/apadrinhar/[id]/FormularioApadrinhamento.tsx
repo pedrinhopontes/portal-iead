@@ -39,7 +39,7 @@ export function FormularioApadrinhamento({
           Reserva registrada
         </h2>
         <p className="mt-3 leading-relaxed text-tinta-suave">
-          O participante <strong className="font-semibold">{codigo}</strong> saiu da vitrine e está
+          O participante <strong className="font-semibold">{codigo}</strong> saiu da lista e está
           reservado para você. Ninguém mais consegue escolhê-lo.
         </p>
 

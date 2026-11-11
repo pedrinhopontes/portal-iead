@@ -31,7 +31,8 @@ const secoes = [
     titulo: "Dados de crianças e adolescentes",
     paragrafos: [
       "Os dados de crianças e adolescentes atendidos pelo Instituto recebem tratamento reforçado e são usados apenas no interesse deles.",
-      "Nas páginas públicas, cada participante do apadrinhamento é identificado por um código. Nome completo, endereço, escola, nome dos responsáveis e qualquer contato pessoal não são publicados em nenhuma hipótese.",
+      "Nas páginas do apadrinhamento, cada participante aparece com o primeiro nome, a idade, os tamanhos de roupa e calçado e a sugestão de presente — o necessário para que alguém possa escolher e comprar o presente certo. Nome completo, sobrenome, endereço, escola, nome dos responsáveis e qualquer contato pessoal não são publicados em nenhuma hipótese: ficam em área restrita do sistema.",
+      "A fotografia do participante é publicada na mesma página, sempre com o termo de autorização de imagem assinado pelo responsável e arquivado no Instituto. O sistema recusa o cadastro de fotografia de criança ou adolescente sem esse registro.",
       "As informações completas ficam em área restrita do sistema, acessível somente a quem precisa organizar a entrega.",
       "Fotografias de crianças e adolescentes só são publicadas com autorização válida dos responsáveis, registrada e arquivada pelo Instituto. Na ausência de autorização, a foto não vai ao ar.",
     ],

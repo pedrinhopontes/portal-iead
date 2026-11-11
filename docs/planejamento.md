@@ -1,153 +1,114 @@
 # Planejamento — o que falta
 
-Situação em 10/11/2026.
+Situação em 11/11/2026.
 
-Cada etapa lista o que será construído, o tamanho relativo do trabalho e **o que depende do
-Instituto**. Uma etapa pode começar sem o material; o que não pode é ir ao ar sem ele.
+A construção do portal terminou. O que falta não é mais código: é **material do Instituto** e
+**três decisões de conta**. Este documento separa as duas coisas, porque elas andam em ritmos
+diferentes e por pessoas diferentes.
 
 ---
 
-## Já está pronto
+## Construído e verificado
 
 | | |
 |---|---|
 | **Análise** | Site atual inventariado (Canva Sites, 4 rotas), apadrinhamento 2018–2025 mapeado, divergências registradas |
-| **Protótipo** | 17 rotas, as 9 áreas do menu, versão mobile, acessibilidade de base |
-| **Identidade** | Logo oficial aplicada, cores extraídas do arquivo, ícone do navegador, contraste verificado |
-| **Fotos** | 12 fotos do acervo otimizadas (37 MB → 4 MB), no carrossel e na linha do tempo |
-| **Banco** | 12 tabelas, segurança por linha, registro de alterações, 3 travas de proteção |
-| **Painel** | Login, 4 perfis de acesso, área de notícias completa |
-| **Conteúdo** | Projetos, linha do tempo, indicadores e parceiros já no banco |
+| **Site público** | 17 rotas, as 9 áreas do menu, versão mobile |
+| **Identidade** | Logo oficial aplicada, cores extraídas do arquivo por amostragem de pixel, ícone do navegador |
+| **Painel** | 22 telas, login, 4 perfis, registro de alterações. Projetos, notícias, fotos, história, indicadores, parceiros, transparência, apadrinhamento e usuários |
+| **Banco** | 12 tabelas, segurança por linha, 10 migrações versionadas, 3 travas de proteção |
+| **Apadrinhamento** | Lista, reserva com trava contra duplicidade, expiração automática, acervo por ano, painel completo |
+| **Captação** | PIX gerado no site (BR Code), registro de contribuição e de filiação, tela financeira |
+| **Transparência** | Envio de documentos, filtros, gráfico de receitas e despesas |
+| **Acessibilidade** | axe-core em 15 páginas, 0 violações |
+| **Código** | Público em [github.com/pedrinhopontes/portal-iead](https://github.com/pedrinhopontes/portal-iead) |
+
+### Como cada teste foi feito
+
+Nenhum destes é "deve funcionar": todos foram exercitados.
+
+| Teste | Método | Resultado |
+|---|---|---|
+| Reserva duplicada | 8 requisições simultâneas no mesmo participante | 1 aceita, 7 recusadas |
+| Expiração da reserva | Relógio adiantado + `expirar_reservas()` | Participante voltou para a lista |
+| Dados sensíveis | Leitura anônima de 7 tabelas, nomeando as colunas | 0 registros |
+| Coluna de autorização | 5 caminhos de leitura como anônimo, incluindo filtrar e ordenar por ela | Recusados nos 5 |
+| PIX | `crc16("123456789")` contra o padrão EMV | `29B1`, confere |
+| Acessibilidade | axe-core, 15 páginas | 0 violações |
 
 ---
 
-## Etapa 5 — Apadrinhamento 2026 · **tem prazo**
+## O próximo passo: publicar na Vercel
 
-Em 2025 a campanha encerrou em 15/12. É o único item do projeto com data marcada.
+É o único item que **não depende do Instituto** e que ainda não foi feito. O repositório já está
+no GitHub, que era o pré-requisito.
 
-**Construir:**
+O resultado é um endereço provisório (`algo.vercel.app`) com o portal inteiro funcionando, ligado
+ao banco de verdade. O domínio oficial **não** é tocado: `iearaujodutra.com.br` continua mostrando
+o site do Canva.
 
-- Tabelas de campanha, participantes, dados restritos e apadrinhamentos
-- Reserva com trava contra duplicidade — duas pessoas no mesmo segundo, só uma vence
-- Expiração automática da reserva (sugestão: 48 h) e devolução à vitrine
-- Vitrine pública ligada ao banco, com os cinco estados
-- Formulário de apadrinhamento, confirmação e orientações de entrega
-- Painel: cadastrar campanha e participantes, confirmar reservas, registrar presente recebido
-- Acervo permanente por ano, de 2018 a 2026
+**Por que isso importa mais do que parece:** nesse endereço provisório o **painel já entra em uso
+real**. A equipe cria as contas, sobe as fotos, escreve as notícias, cadastra a campanha de 2026 e
+preenche a transparência — tudo gravando no banco definitivo. O portal público só aparece quando
+já tiver conteúdo.
 
-**Tamanho:** grande. É a parte mais complexa do portal.
+Ou seja: o painel vai ao ar antes do site. É isso que destrava o resto da lista abaixo, porque a
+partir daí o Instituto preenche sozinho, sem depender de programação.
 
-**Depende do Instituto:** lista de participantes (por canal privado), prazo de entrega, data e
-local do evento, valor da contribuição em 2026, banner da campanha.
-
-> O sistema pode ser construído inteiro antes de o material chegar, usando a lista de
-> demonstração. O que não pode é ir ao ar com dados inventados.
+Procedimento em [publicacao.md](publicacao.md).
 
 ---
 
-## Etapa 6 — Painel completo e site lendo do banco
+## O que espera material do Instituto
 
-Hoje o site público lê dos arquivos de código. O painel edita o banco. Enquanto os dois não forem
-a mesma coisa, editar no painel não muda o site.
+A estrutura de cada item existe e está vazia **de propósito**. Nenhum número, valor ou texto foi
+inventado para preencher tela.
 
-**Construir:**
-
-- **Tela de fotos**: enviar imagem, escrever descrição, informar autorização, escolher onde entra.
-  É o que tira a dependência de um programador para trocar uma foto.
-- Telas de projetos, linha do tempo, parceiros, depoimentos e indicadores
-- Tela de usuários (cadastrar a equipe, definir perfis) e de registro de alterações
-- Páginas públicas passando a ler do banco, área por área
-
-**Tamanho:** grande, mas repetitivo — a tela de notícias já definiu o padrão.
-
-**Depende do Instituto:** fotos restantes, textos de missão e visão, história de 2020 a 2025,
-números de impacto verificados, equipe e diretoria autorizadas a publicar, e a referência do
-termo de autorização das fotos com crianças.
-
----
-
-## Etapa 7 — Captação de recursos
-
-**Construir:**
-
-- Cadastro de apoiador, escolha de valor, mensal ou pontual
-- PIX fase 1: QR Code gerado no site, sem taxa, com conferência no painel
-- Histórico de contribuições, comprovantes, cancelamento de recorrência
-- Fluxo de filiação associativa, separado do apoio financeiro
-- Tela financeira no painel
-
-**Tamanho:** médio.
-
-**Depende do Instituto:** chave PIX oficial e titularidade, decisão sobre recorrência automática
-(exige API bancária ou provedor), regras estatutárias da filiação.
-
----
-
-## Etapa 8 — Portal da Transparência
-
-**Construir:**
-
-- Envio de documentos por categoria e ano, com data de publicação
-- Filtros funcionando
-- Gráficos de receitas e despesas alimentados por dados reais
-- Relatórios de impacto
-
-**Tamanho:** médio.
-
-**Depende do Instituto:** estatuto, atas, documentos de regularidade, balanços, demonstrações
-contábeis, relatórios anuais e os valores conferidos pela contabilidade.
-
-> Esta é a etapa mais dependente de material externo. A estrutura já existe e está vazia de
-> propósito: nenhum valor financeiro foi inventado.
-
----
-
-## Etapa 9 — Testes, segurança e publicação · **em andamento**
-
-**Já feito e verificado:**
-
-- ~~Auditoria de acessibilidade~~ — axe-core em 15 páginas, 0 violações
-- ~~Teste de concorrência da reserva~~ — 8 simultâneas, 1 aceita
-- ~~Varredura de vazamento nas APIs públicas~~ — 7 tabelas sensíveis, 0 registros
-- ~~Teste de expiração da reserva~~ — participante voltou para a vitrine
-- ~~Redirects das URLs antigas, sitemap, robots e imagem de compartilhamento~~
-
-**Falta:**
-
-- Política de privacidade revisada juridicamente
-- Publicação na Vercel e virada do domínio — ver [publicacao.md](publicacao.md)
-
-**Tamanho:** médio.
-
-**Depende do Instituto:** encarregado de dados (DPO), acesso ao registro do domínio, decisão
-sobre o plano pago do Supabase, e a aprovação final para virar o domínio.
-
----
-
-## O que trava o quê
-
-| Pendência | Trava |
+| O que falta | O que destrava |
 |---|---|
-| Lista de participantes e datas de 2026 | Publicar o apadrinhamento |
-| Termo de autorização das fotos | Mover 9 das 12 fotos para o banco |
+| Lista de participantes e datas de 2026 | Publicar o apadrinhamento — **é o único item com prazo** |
+| Termo de autorização das fotos | As nove fotos retidas voltam ao site |
 | Chave PIX oficial | Receber doações pelo site |
-| Estatuto, balanços e relatórios | Portal da Transparência sair do estado vazio |
+| Estatuto, balanços e relatórios | Transparência sair do estado vazio |
 | Números de impacto verificados | Indicadores da home deixarem de mostrar travessão |
-| História de 2020 a 2025 | Seis anos da linha do tempo saírem de "texto a escrever" |
+| História de 2020 a 2025 | Seis anos da linha do tempo saírem de "aguardando registros" |
+| Missão, visão e valores aprovados | Quem Somos deixar de marcar "em revisão" |
+| Equipe, diretoria e conselhos | Governança sair de "aguardando lista autorizada" |
 | Encarregado de dados (DPO) | Publicar a política de privacidade |
-| Acesso ao domínio | Virada final |
 
-A lista completa, com as oito decisões que só o Instituto pode tomar, está em
+A lista completa, com as oito decisões que só o Instituto pode tomar (razão social, qualificação
+jurídica, faixas etárias, valor da contribuição), está em
 [pendencias-do-instituto.md](pendencias-do-instituto.md).
 
+> **Sobre o prazo:** em 2025 a campanha de apadrinhamento encerrou em 15/12. É o único item do
+> projeto com data marcada. O sistema está pronto e testado; falta a lista.
+
 ---
 
-## Duas decisões para antes da publicação
+## Três decisões de conta
+
+Nenhuma é técnica. Todas precisam ser tomadas antes da virada do domínio.
 
 1. **Transferir o projeto do Supabase para uma conta do IEAD.** O banco está hoje numa organização
-   pessoal. Dados do Instituto, inclusive de crianças, não deveriam depender de uma conta pessoal.
-   O Supabase permite transferir entre organizações.
+   pessoal, criada para destravar o desenvolvimento. Dados do Instituto, inclusive de crianças, não
+   deveriam depender de uma conta pessoal. O Supabase permite transferir entre organizações.
 
-2. **Avaliar o plano pago do Supabase.** No gratuito, projeto sem uso hiberna e o site sai do ar
-   até alguém acordar o banco. Para o domínio oficial, o Pro (≈ US$ 25/mês) remove a pausa e traz
-   backup diário.
+2. **Avaliar o plano pago do Supabase.** No gratuito, projeto sem uso hiberna e o site sai do ar até
+   alguém acordar o banco. Para o domínio oficial, o Pro (≈ US$ 25/mês) remove a pausa e traz backup
+   diário.
+
+3. **Descobrir onde o domínio está registrado** (registro.br ou via Canva) e garantir que o IEAD
+   tem o acesso.
+
+> O código ficou no GitHub pessoal do desenvolvedor, como portfólio — isso é combinado e não tem
+> problema. O que não pode ficar em conta pessoal é o **banco**, que guarda os dados.
+
+---
+
+## Revisão jurídica
+
+Separada porque não é código nem material, e porque trava a publicação sozinha:
+
+- Política de privacidade, que precisa do nome do encarregado de dados
+- Razão social correta e qualificação jurídica (OSC / OSCIP / CEBAS)
+- Termo de autorização de imagem, se o Instituto ainda não tiver um modelo
