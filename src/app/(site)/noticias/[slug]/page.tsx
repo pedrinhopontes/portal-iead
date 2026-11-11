@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { VideoDaNoticia } from "@/components/site/VideoDaNoticia";
+import { Carrossel } from "@/components/ui/Carrossel";
 import { Container } from "@/components/ui/Container";
 import { Etiqueta } from "@/components/ui/Etiqueta";
 import { Foto } from "@/components/ui/Foto";
@@ -51,18 +54,48 @@ export default async function PaginaNoticia({ params }: Props) {
 
       <Secao fundo="branco">
         <Container estreito>
-          <Foto
-            slot={`noticia-${noticia.slug}-capa`}
-            proporcao="16/9"
-            legenda="Imagem principal da notícia"
-            tamanhos="(max-width: 768px) 100vw, 720px"
-          />
+          {noticia.capa ? (
+            <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-creme">
+              <Image
+                src={noticia.capa.caminho}
+                alt={noticia.capa.alt}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 720px"
+                className="object-cover"
+              />
+            </div>
+          ) : (
+            <Foto
+              slot={`noticia-${noticia.slug}-capa`}
+              proporcao="16/9"
+              legenda="Imagem principal da notícia"
+              tamanhos="(max-width: 768px) 100vw, 720px"
+            />
+          )}
 
           <div className="mt-10 space-y-5 text-lg leading-relaxed text-tinta-suave">
             {paragrafos(noticia.corpo).map((paragrafo) => (
               <p key={paragrafo}>{paragrafo}</p>
             ))}
           </div>
+
+          {noticia.video_url && (
+            <VideoDaNoticia url={noticia.video_url} titulo={noticia.titulo} />
+          )}
+
+          {noticia.galeria.length > 0 && (
+            <div className="mt-12">
+              <h2 className="font-serif text-2xl font-semibold">Imagens</h2>
+              <Carrossel
+                className="mt-5"
+                proporcao="16/9"
+                legenda="Imagens desta notícia"
+                tamanhos="(max-width: 768px) 100vw, 720px"
+                fotos={noticia.galeria.map((img) => ({ arquivo: img.caminho, alt: img.alt }))}
+              />
+            </div>
+          )}
 
           <div className="mt-12 rounded-2xl border border-linha bg-areia p-6">
             <p className="font-semibold">Compartilhe esta notícia</p>

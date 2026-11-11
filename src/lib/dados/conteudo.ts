@@ -1,10 +1,11 @@
 import { supabaseConfigurado } from "@/lib/supabase/configuracao";
 import { criarClienteServidor } from "@/lib/supabase/servidor";
-import type { AnoHistoria, Indicador, Noticia, Parceiro, Projeto } from "./conteudo-tipos";
+import type { AnoHistoria, ImagemDaNoticia, Indicador, Noticia, Parceiro, Projeto } from "./conteudo-tipos";
 
 export type {
   AnoHistoria,
   CategoriaNoticia,
+  ImagemDaNoticia,
   Indicador,
   Noticia,
   Parceiro,
@@ -23,21 +24,51 @@ export async function listarNoticias(): Promise<Noticia[]> {
   const supabase = await criarClienteServidor();
   const { data } = await supabase
     .from("noticias")
-    .select("id, slug, titulo, resumo, corpo, categoria, data, publicado")
+    .select("id, slug, titulo, resumo, corpo, categoria, data, publicado, video_url, capa:midias(caminho, alt)")
     .order("data", { ascending: false, nullsFirst: false })
     .order("criado_em", { ascending: false });
-  return (data as Noticia[]) ?? [];
+
+  // A galeria não entra na listagem: o cartão mostra só a capa, e trazer as
+  // imagens de todas as notícias para desenhar miniaturas seria desperdício.
+  return ((data ?? []) as unknown as (Noticia & { capa: ImagemDaNoticia | ImagemDaNoticia[] | null })[]).map(
+    (n) => ({
+      ...n,
+      capa: (Array.isArray(n.capa) ? n.capa[0] : n.capa) ?? null,
+      galeria: [],
+    }),
+  );
 }
 
 export async function noticiaPorSlug(slug: string): Promise<Noticia | null> {
   if (!supabaseConfigurado) return null;
   const supabase = await criarClienteServidor();
+
   const { data } = await supabase
     .from("noticias")
-    .select("id, slug, titulo, resumo, corpo, categoria, data, publicado")
+    .select("id, slug, titulo, resumo, corpo, categoria, data, publicado, video_url, capa:midias(caminho, alt)")
     .eq("slug", slug)
     .maybeSingle();
-  return (data as Noticia) ?? null;
+
+  if (!data) return null;
+
+  // A galeria vem em consulta própria porque precisa vir ORDENADA, e a ordem
+  // mora na tabela de ligação, não na mídia.
+  const { data: daGaleria } = await supabase
+    .from("noticia_midias")
+    .select("ordem, midias(caminho, alt)")
+    .eq("noticia_id", (data as { id: string }).id)
+    .order("ordem");
+
+  const uma = <T,>(v: T | T[] | null | undefined): T | null =>
+    (Array.isArray(v) ? v[0] : v) ?? null;
+
+  return {
+    ...(data as unknown as Noticia),
+    capa: uma((data as { capa?: unknown }).capa as ImagemDaNoticia | ImagemDaNoticia[] | null),
+    galeria: ((daGaleria ?? []) as { midias: unknown }[])
+      .map((l) => uma(l.midias as ImagemDaNoticia | ImagemDaNoticia[] | null))
+      .filter((m): m is ImagemDaNoticia => m !== null),
+  };
 }
 
 export async function listarProjetos(): Promise<Projeto[]> {

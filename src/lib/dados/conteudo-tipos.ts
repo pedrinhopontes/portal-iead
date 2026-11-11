@@ -14,6 +14,9 @@ export const categoriasDeNoticia: CategoriaNoticia[] = [
   "Conquistas",
 ];
 
+/** Uma imagem da notícia, já com a descrição que o leitor de tela usa. */
+export type ImagemDaNoticia = { caminho: string; alt: string };
+
 export type Noticia = {
   id: string;
   slug: string;
@@ -23,6 +26,9 @@ export type Noticia = {
   categoria: CategoriaNoticia;
   data: string | null;
   publicado: boolean;
+  video_url: string | null;
+  capa: ImagemDaNoticia | null;
+  galeria: ImagemDaNoticia[];
 };
 
 export type Projeto = {

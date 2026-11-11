@@ -53,6 +53,40 @@ export async function salvarNoticia(
   const slug = slugTexto ? await gerarSlug(slugTexto) : await gerarSlug(titulo);
   if (!slug) return { erro: "Não foi possível gerar o endereço a partir do título." };
 
+  // --- Imagens e vídeo ---
+  const temMenores = formData.get("tem_menores") === "on";
+  const autorizacao = String(formData.get("autorizacao") ?? "").trim();
+  const videoUrl = String(formData.get("video_url") ?? "").trim();
+
+  const juntar = (prefixo: string) => {
+    const caminhos = formData.getAll(`${prefixo}_caminho`).map(String);
+    const alts = formData.getAll(`${prefixo}_alt`).map((a) => String(a).trim());
+    return caminhos.map((caminho, i) => ({ caminho, alt: alts[i] ?? "" }));
+  };
+
+  const capa = juntar("capa")[0] ?? null;
+  const galeria = juntar("galeria");
+  const todas = [...(capa ? [capa] : []), ...galeria];
+
+  if (todas.some((f) => !f.alt)) {
+    return {
+      erro: "Toda imagem precisa de descrição. É o que uma pessoa cega ouve no lugar da foto.",
+    };
+  }
+
+  // A mesma regra que a restrição do banco aplica, verificada antes para a
+  // mensagem ser legível em vez de um erro de violação de constraint.
+  if (temMenores && (!autorizacao || autorizacao.toUpperCase() === "PENDENTE")) {
+    return {
+      erro:
+        "As fotos estão marcadas como contendo crianças ou adolescentes. Informe qual termo de autorização de imagem as cobre.",
+    };
+  }
+
+  if (videoUrl && !/^https?:\/\//i.test(videoUrl)) {
+    return { erro: "O endereço do vídeo precisa começar com https://" };
+  }
+
   const dados = {
     titulo,
     resumo,
@@ -62,15 +96,80 @@ export async function salvarNoticia(
     // Data nula é proposital: a tela pública mostra "data a confirmar".
     data: dataTexto || null,
     publicado,
+    video_url: videoUrl || null,
   };
 
   const supabase = await criarClienteServidor();
 
-  const { error } = id
-    ? await supabase.from("noticias").update(dados).eq("id", id)
-    : await supabase.from("noticias").insert(dados);
+  // --- Cadastra as imagens ---
+  // `upsert` por caminho: reenviar o formulário com as mesmas fotos atualiza a
+  // descrição em vez de duplicar a linha no acervo.
+  const idPorCaminho = new Map<string, string>();
+
+  if (todas.length > 0) {
+    const { data: midias, error: erroMidias } = await supabase
+      .from("midias")
+      .upsert(
+        todas.map((f) => ({
+          caminho: f.caminho,
+          alt: f.alt,
+          tem_menores: temMenores,
+          autorizacao: autorizacao || null,
+        })),
+        { onConflict: "caminho" },
+      )
+      .select("id, caminho");
+
+    if (erroMidias) {
+      if (erroMidias.code === "23514") {
+        return {
+          erro:
+            "O banco recusou: foto com criança ou adolescente só entra com a referência do termo de autorização.",
+        };
+      }
+      return { erro: mensagemDoErro(erroMidias.code, erroMidias.message) };
+    }
+
+    for (const m of (midias ?? []) as { id: string; caminho: string }[]) {
+      idPorCaminho.set(m.caminho, m.id);
+    }
+  }
+
+  const capaId = capa ? (idPorCaminho.get(capa.caminho) ?? null) : null;
+
+  // --- Grava a notícia ---
+  const { data: salva, error } = id
+    ? await supabase
+        .from("noticias")
+        .update({ ...dados, capa_id: capaId })
+        .eq("id", id)
+        .select("id")
+        .single()
+    : await supabase
+        .from("noticias")
+        .insert({ ...dados, capa_id: capaId })
+        .select("id")
+        .single();
 
   if (error) return { erro: mensagemDoErro(error.code, error.message) };
+
+  // --- Galeria ---
+  // Troca a lista inteira: o formulário manda o estado final, não um delta.
+  // Só depois de gravar a notícia, porque antes disso ela não tem identificador.
+  await supabase.from("noticia_midias").delete().eq("noticia_id", salva.id);
+
+  if (galeria.length > 0) {
+    const linhas = galeria
+      .map((f, ordem) => ({
+        noticia_id: salva.id as string,
+        midia_id: idPorCaminho.get(f.caminho),
+        ordem,
+      }))
+      .filter((l): l is { noticia_id: string; midia_id: string; ordem: number } => !!l.midia_id);
+
+    const { error: erroGaleria } = await supabase.from("noticia_midias").insert(linhas);
+    if (erroGaleria) return { erro: mensagemDoErro(erroGaleria.code, erroGaleria.message) };
+  }
 
   revalidatePath("/admin/noticias");
   revalidatePath("/noticias");
