@@ -6,6 +6,7 @@ import { Foto } from "@/components/ui/Foto";
 import { Etiqueta } from "@/components/ui/Etiqueta";
 import { Icone } from "@/components/ui/Icone";
 import { Secao } from "@/components/ui/Secao";
+import { carregarTextos } from "@/lib/dados/textos";
 import { TituloSecao } from "@/components/ui/TituloSecao";
 /**
  * Dados do evento comemorativo.
@@ -35,7 +36,8 @@ const blocosAcervo = [
   { titulo: "Resultados", descricao: "O que ficou da comemoração para o Instituto." },
 ];
 
-export default function DezAnos() {
+export default async function DezAnos() {
+  const t = await carregarTextos();
   return (
     <>
       <section className="relative overflow-hidden border-b border-linha bg-bordo text-white">
@@ -48,11 +50,10 @@ export default function DezAnos() {
             7 de novembro de 2026
           </Etiqueta>
           <h1 className="mt-6 max-w-4xl font-serif text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
-            IEAD 10 Anos: Infâncias Protegidas, Futuros Possíveis
+            {t("dez-anos.capa.titulo")}
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-white/85">
-            A comemoração de uma década de atuação em Guadalupe reuniu o seminário, parceiros institucionais e
-            as famílias atendidas pelo Instituto.
+            {t("dez-anos.capa.texto")}
           </p>
           <p className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-white/75">
             <span className="flex items-center gap-2">
@@ -70,9 +71,9 @@ export default function DezAnos() {
       <Secao fundo="branco">
         <Container>
           <TituloSecao
-            sobretitulo="Acervo permanente"
-            titulo="O que esta página vai guardar"
-            texto="A comemoração continua disponível como acervo histórico mesmo depois de 2026. Cada bloco abaixo é preenchido pelo painel administrativo."
+            sobretitulo={t("dez-anos.acervo.sobretitulo")}
+            titulo={t("dez-anos.acervo.titulo")}
+            texto={t("dez-anos.acervo.texto")}
           />
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -87,17 +88,19 @@ export default function DezAnos() {
             ))}
           </div>
 
-          <Aviso titulo="Material do evento ainda não recebido" tom="pendente" className="mt-10">
-            O evento ocorreu em 7 de novembro de 2026, três dias antes desta entrega. Assim que o Instituto
-            enviar programação, lista de palestrantes, fotografias e vídeos, esta página passa a exibir o
-            conteúdo real — nada foi preenchido por suposição.
+          <Aviso titulo={t("dez-anos.sem-material.titulo")} tom="pendente" className="mt-10">
+            {t("dez-anos.sem-material.texto")}
           </Aviso>
         </Container>
       </Secao>
 
       <Secao fundo="areia">
         <Container>
-          <TituloSecao centralizado sobretitulo="Galeria" titulo="Registros da comemoração" />
+          <TituloSecao
+            centralizado
+            sobretitulo={t("dez-anos.galeria.sobretitulo")}
+            titulo={t("dez-anos.galeria.titulo")}
+          />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }, (_, i) => (
               <Foto

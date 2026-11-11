@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { Secao } from "@/components/ui/Secao";
 import { TituloSecao } from "@/components/ui/TituloSecao";
 import { listarProjetos } from "@/lib/dados/conteudo";
+import { carregarTextos } from "@/lib/dados/textos";
 
 export const metadata: Metadata = {
   title: "Nossos Projetos",
@@ -29,21 +30,22 @@ const frentesAConfirmar = [
 ];
 
 export default async function Projetos() {
+  const t = await carregarTextos();
   const projetos = await listarProjetos();
 
   return (
     <>
       <CapaPagina
-        sobretitulo="Nossos projetos"
-        titulo="Da primeira infância à universidade"
-        texto="Cada projeto tem público, objetivos e atividades próprias — e uma página com fotografias, relatórios, notícias e formas de colaborar."
+        sobretitulo={t("projetos.capa.sobretitulo")}
+        titulo={t("projetos.capa.titulo")}
+        texto={t("projetos.capa.texto")}
       />
 
       <Secao fundo="areia">
         <Container>
           {projetos.length === 0 ? (
-            <Aviso titulo="Nenhum projeto publicado" tom="informativo">
-              Os projetos cadastrados no painel aparecem aqui assim que forem publicados.
+            <Aviso titulo={t("projetos.vazio.titulo")} tom="informativo">
+              {t("projetos.vazio.texto")}
             </Aviso>
           ) : (
             <>
@@ -58,10 +60,8 @@ export default async function Projetos() {
             </>
           )}
 
-          <Aviso titulo="As descrições são iniciais" tom="pendente" className="mt-10">
-            Conforme o briefing, os textos acima são um ponto de partida e devem ser revisados com a equipe
-            de cada projeto. As faixas etárias divergem entre o site atual e o briefing e estão sinalizadas
-            dentro de cada página.
+          <Aviso titulo={t("projetos.aviso.titulo")} tom="pendente" className="mt-10">
+            {t("projetos.aviso.texto")}
           </Aviso>
         </Container>
       </Secao>
@@ -69,9 +69,9 @@ export default async function Projetos() {
       <Secao fundo="branco">
         <Container>
           <TituloSecao
-            sobretitulo="A confirmar"
-            titulo="Frentes que aparecem no site atual"
-            texto="Estas iniciativas estão publicadas hoje em iearaujodutra.com.br, mas não constavam do briefing. Precisam de definição: seguem ativas, mudaram de nome ou saem do ar?"
+            sobretitulo={t("projetos.confirmar.sobretitulo")}
+            titulo={t("projetos.confirmar.titulo")}
+            texto={t("projetos.confirmar.texto")}
           />
           <ul className="mt-8 grid gap-4 sm:grid-cols-3">
             {frentesAConfirmar.map((frente) => (

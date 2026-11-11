@@ -7,6 +7,7 @@ import { Botao } from "@/components/ui/Botao";
 import { Container } from "@/components/ui/Container";
 import { Etiqueta } from "@/components/ui/Etiqueta";
 import { Secao } from "@/components/ui/Secao";
+import { carregarTextos } from "@/lib/dados/textos";
 import {
   campanhaVigente,
   formatarValor,
@@ -27,6 +28,7 @@ export default async function Apadrinhar({ params }: Props) {
   const { id } = await params;
 
   const participante = await participantePorId(id);
+  const t = await carregarTextos();
   if (!participante) notFound();
 
   const campanha = await campanhaVigente();
@@ -38,7 +40,7 @@ export default async function Apadrinhar({ params }: Props) {
       <CapaPagina
         sobretitulo={campanha ? `Campanha ${campanha.ano}` : "Apadrinhamento"}
         titulo={`Apadrinhar ${participante.codigo_publico}`}
-        texto="Preencha os seus dados para reservar. A equipe do Instituto entra em contato para combinar a entrega."
+        texto={t("apadrinhar.capa.texto")}
       />
 
       <Secao fundo="areia">
@@ -83,8 +85,7 @@ export default async function Apadrinhar({ params }: Props) {
               </dl>
 
               <p className="mt-6 text-xs leading-relaxed text-tinta-suave">
-                Estas são todas as informações que o Instituto divulga sobre um participante. Nome,
-                endereço, escola e contato não são publicados em nenhuma hipótese.
+                {t("apadrinhar.protecao.texto")}
               </p>
             </div>
 

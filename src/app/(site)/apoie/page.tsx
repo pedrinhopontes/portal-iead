@@ -1,4 +1,6 @@
 import { SeArea } from "@/components/site/SeArea";
+import { carregarTextos } from "@/lib/dados/textos";
+import type { ChaveDeTexto } from "@/content/textos";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CapaPagina } from "@/components/site/CapaPagina";
@@ -19,29 +21,27 @@ export const metadata: Metadata = {
     "Apoie o Instituto Educacional Araujo Dutra: contribuição mensal, doação única por PIX, apadrinhamento de Natal, voluntariado e parcerias.",
 };
 
-const caminhos: { titulo: string; texto: string; href: string; cta: string; icone: NomeIcone }[] = [
+/** Os três caminhos de apoio. Título, texto e botão são chaves do registro de textos. */
+const caminhos: { titulo: ChaveDeTexto; texto: ChaveDeTexto; href: string; cta: ChaveDeTexto; icone: NomeIcone }[] = [
   {
-    titulo: "Contribuição mensal",
-    texto:
-      "A forma que mais ajuda: permite ao Instituto planejar o ano, manter as turmas e comprar material com antecedência.",
+    titulo: "apoie.mensal.titulo",
+    texto: "apoie.mensal.texto",
     href: "/seja-filiado",
-    cta: "Quero contribuir todo mês",
+    cta: "apoie.mensal.botao",
     icone: "coracao",
   },
   {
-    titulo: "Doação única",
-    texto:
-      "Uma contribuição pontual, no valor que você escolher, direto na conta do Instituto por PIX — sem taxa, o valor chega inteiro.",
+    titulo: "apoie.unica.titulo",
+    texto: "apoie.unica.texto",
     href: "/seja-filiado",
-    cta: "Fazer uma doação",
+    cta: "apoie.unica.botao",
     icone: "presente",
   },
   {
-    titulo: "Apadrinhamento de Natal",
-    texto:
-      "Escolha um participante, prepare o presente e entregue na festa de encerramento do ano. Um presente com nome e com história.",
+    titulo: "apoie.apadrinhamento.titulo",
+    texto: "apoie.apadrinhamento.texto",
     href: "/apadrinhamento",
-    cta: "Apadrinhe neste Natal",
+    cta: "apoie.apadrinhamento.botao",
     icone: "pessoas",
   },
 ];
@@ -54,15 +54,16 @@ const outrasFormas = [
 ];
 
 export default async function Apoie() {
+  const t = await carregarTextos();
   const config = await configuracaoPix();
   const pixPronto = pixConfigurado(config);
 
   return (
     <>
       <CapaPagina
-        sobretitulo="Apoie o IEAD"
-        titulo="Há mais de um jeito de fazer parte"
-        texto="Escolha a forma que combina com você. Toda contribuição vira atividade, material e acompanhamento para crianças, adolescentes, mulheres e pessoas idosas de Guadalupe."
+        sobretitulo={t("apoie.capa.sobretitulo")}
+        titulo={t("apoie.capa.titulo")}
+        texto={t("apoie.capa.texto")}
       />
 
       <Secao fundo="branco">
@@ -73,13 +74,13 @@ export default async function Apoie() {
                 <span className="flex h-12 w-12 items-center justify-center rounded-full bg-bordo text-white">
                   <Icone nome={caminho.icone} className="h-6 w-6" />
                 </span>
-                <h2 className="mt-5 text-xl font-semibold">{caminho.titulo}</h2>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-tinta-suave">{caminho.texto}</p>
+                <h2 className="mt-5 text-xl font-semibold">{t(caminho.titulo)}</h2>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-tinta-suave">{t(caminho.texto)}</p>
                 <Link
                   href={caminho.href}
                   className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-bordo hover:text-bordo-escuro"
                 >
-                  {caminho.cta}
+                  {t(caminho.cta)}
                   <Icone nome="seta" className="h-4 w-4" />
                 </Link>
               </article>
@@ -92,10 +93,12 @@ export default async function Apoie() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             <div>
-              <TituloSecao sobretitulo="PIX" titulo="Doação direta, sem taxa" />
+              <TituloSecao
+                sobretitulo={t("apoie.pix.sobretitulo")}
+                titulo={t("apoie.pix.titulo")}
+              />
               <p className="mt-5 leading-relaxed text-tinta-suave">
-                O PIX cai direto na conta do Instituto, sem intermediário e sem taxa por transação. É por isso
-                que ele é a primeira forma de pagamento do portal: o valor doado chega inteiro.
+                {t("apoie.pix.texto")}
               </p>
 
               <div
@@ -114,8 +117,7 @@ export default async function Apoie() {
                     </p>
                     <p className="mt-2 text-sm text-tinta-suave">
                       Em nome de <strong className="font-semibold text-tinta">{config.nome}</strong>.
-                      Confira o nome no seu aplicativo antes de confirmar — é assim que você sabe que o
-                      dinheiro vai para o Instituto.
+                      {t("apoie.pix.confira")}
                     </p>
                     <SeArea href="/seja-filiado">
                       <p className="mt-3 text-sm text-tinta-suave">
@@ -136,9 +138,7 @@ export default async function Apoie() {
                       aguardando confirmação
                     </p>
                     <p className="mt-3 text-sm text-tinta-suave">
-                      A chave oficial será publicada aqui depois de cadastrada no painel pelo Instituto.
-                      Nenhuma chave foi inserida por suposição — publicar uma chave errada desviaria
-                      doações.
+                      {t("apoie.pix.sem-chave")}
                     </p>
                   </>
                 )}
@@ -150,10 +150,8 @@ export default async function Apoie() {
             </div>
 
             <div className="space-y-5">
-              <Aviso titulo="Como a confirmação funciona" tom="informativo">
-                O PIX cai direto na conta do Instituto, sem intermediário. Como não há integração
-                bancária ainda, a baixa é feita por uma pessoa do financeiro conferindo o extrato — por
-                isso cada doação recebe uma referência própria, que aparece no pagamento.
+              <Aviso titulo={t("apoie.confirmacao.titulo")} tom="informativo">
+                {t("apoie.confirmacao.texto")}
               </Aviso>
 
               <div className="rounded-2xl border border-linha bg-white p-7">

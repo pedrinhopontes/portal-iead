@@ -8,6 +8,7 @@ import { Etiqueta } from "@/components/ui/Etiqueta";
 import { Foto } from "@/components/ui/Foto";
 import { Icone } from "@/components/ui/Icone";
 import { Secao } from "@/components/ui/Secao";
+import { carregarTextos } from "@/lib/dados/textos";
 import { campanhaPorAno } from "@/lib/dados/apadrinhamento";
 
 export const dynamic = "force-dynamic";
@@ -30,6 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CampanhaPorAno({ params }: Props) {
+  const t = await carregarTextos();
   const { ano } = await params;
   const numero = Number(ano);
 
@@ -69,8 +71,7 @@ export default async function CampanhaPorAno({ params }: Props) {
               <Etiqueta tom="neutro">Registro original</Etiqueta>
               <h2 className="mt-4 text-2xl font-semibold">O que temos desta edição</h2>
               <p className="mt-3 text-tinta-suave">
-                O registro público desta campanha está hospedado nos canais do Instituto. O conteúdo será
-                importado para o portal, preservando o link original.
+                {t("campanha-ano.acervo.texto")}
               </p>
               <a
                 href={campanha.registro_url}
@@ -83,7 +84,7 @@ export default async function CampanhaPorAno({ params }: Props) {
               </a>
 
               {campanha.observacao && (
-                <Aviso titulo="Registro a corrigir" tom="pendente" className="mt-8">
+                <Aviso titulo={t("campanha-ano.corrigir.titulo")} tom="pendente" className="mt-8">
                   {campanha.observacao}
                 </Aviso>
               )}

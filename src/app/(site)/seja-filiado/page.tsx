@@ -6,6 +6,7 @@ import { Aviso } from "@/components/ui/Aviso";
 import { Container } from "@/components/ui/Container";
 import { Icone } from "@/components/ui/Icone";
 import { Secao } from "@/components/ui/Secao";
+import { carregarTextos } from "@/lib/dados/textos";
 import { TituloSecao } from "@/components/ui/TituloSecao";
 import { configuracaoPix } from "@/lib/dados/apoio";
 import { pixConfigurado } from "@/lib/pix";
@@ -28,15 +29,16 @@ const recursosDoApoiador = [
 ];
 
 export default async function SejaFiliado() {
+  const t = await carregarTextos();
   const config = await configuracaoPix();
   const pixPronto = pixConfigurado(config);
 
   return (
     <>
       <CapaPagina
-        sobretitulo="Seja um filiado"
-        titulo="Faça parte de quem transforma vidas"
-        texto="A contribuição mensal é o que dá previsibilidade ao Instituto: permite manter as turmas abertas, comprar material e planejar o ano inteiro sem depender de doações pontuais."
+        sobretitulo={t("filiado.capa.sobretitulo")}
+        titulo={t("filiado.capa.titulo")}
+        texto={t("filiado.capa.texto")}
       />
 
       <Secao fundo="branco">
@@ -46,10 +48,8 @@ export default async function SejaFiliado() {
 
             <div className="space-y-5">
               {!pixPronto && (
-                <Aviso titulo="A chave PIX ainda não foi cadastrada" tom="pendente">
-                  O formulário funciona e registra a sua contribuição, mas o código PIX só é gerado depois
-                  que o Instituto cadastrar a chave no painel. Nenhuma chave foi colocada por suposição —
-                  publicar uma chave errada desviaria doações.
+                <Aviso titulo={t("filiado.sem-pix.titulo")} tom="pendente">
+                  {t("filiado.sem-pix.texto")}
                 </Aviso>
               )}
 
@@ -59,14 +59,10 @@ export default async function SejaFiliado() {
                   Por que PIX, e não cartão
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-tinta-suave">
-                  O PIX cai direto na conta do Instituto, sem intermediário e sem taxa por transação. Numa
-                  doação de R$ 50, a diferença entre receber R$ 50 e receber R$ 47 não é pequena quando o
-                  orçamento é o de uma organização social.
+                  {t("filiado.pix.vantagem")}
                 </p>
                 <p className="mt-3 text-sm leading-relaxed text-tinta-suave">
-                  A contrapartida: o PIX não cobra sozinho. A contribuição mensal, nesta fase, é um
-                  compromisso que você repete a cada mês — e que o Instituto acompanha. A cobrança
-                  automática depende de integração bancária, prevista para a fase seguinte.
+                  {t("filiado.pix.contrapartida")}
                 </p>
               </div>
 
@@ -90,9 +86,9 @@ export default async function SejaFiliado() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
             <TituloSecao
-              sobretitulo="Atenção"
-              titulo="Apoiar financeiramente não é o mesmo que ser associado"
-              texto="A filiação associativa envolve direitos previstos no estatuto, regras próprias e aprovação administrativa. Por isso ela tem um fluxo separado do apoio financeiro, e um não leva ao outro."
+              sobretitulo={t("filiado.associacao.sobretitulo")}
+              titulo={t("filiado.associacao.titulo")}
+              texto={t("filiado.associacao.texto")}
             />
             <FormularioFiliacao />
           </div>

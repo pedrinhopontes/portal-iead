@@ -1,4 +1,5 @@
 import { SeArea } from "@/components/site/SeArea";
+import { carregarTextos } from "@/lib/dados/textos";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CapaPagina } from "@/components/site/CapaPagina";
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PaginaProjeto({ params }: Props) {
+  const t = await carregarTextos();
   const { slug } = await params;
   const projeto = await projetoPorSlug(slug);
 
@@ -77,7 +79,7 @@ export default async function PaginaProjeto({ params }: Props) {
               )}
 
               {projeto.observacao && (
-                <Aviso titulo="Informação a confirmar" tom="pendente" className="mt-10">
+                <Aviso titulo={t("projeto.confirmar.titulo")} tom="pendente" className="mt-10">
                   {projeto.observacao}
                 </Aviso>
               )}
@@ -102,9 +104,9 @@ export default async function PaginaProjeto({ params }: Props) {
       <Secao fundo="areia">
         <Container>
           <TituloSecao
-            sobretitulo="Acervo do projeto"
-            titulo="O que esta página vai reunir"
-            texto="Cada projeto terá um acervo próprio, alimentado pelo painel administrativo pelo coordenador responsável."
+            sobretitulo={t("projeto.acervo.sobretitulo")}
+            titulo={t("projeto.acervo.titulo")}
+            texto={t("projeto.acervo.texto")}
           />
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -137,8 +139,7 @@ export default async function PaginaProjeto({ params }: Props) {
             <div className="max-w-xl">
               <h2 className="text-2xl font-semibold text-white">Como colaborar com o {projeto.nome}</h2>
               <p className="mt-3 text-white/85">
-                Você pode apoiar com contribuição mensal, doação pontual, voluntariado ou parceria
-                institucional.
+                {t("projeto.apoio.texto")}
               </p>
             </div>
             <div className="flex flex-wrap gap-3">

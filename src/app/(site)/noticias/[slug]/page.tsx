@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { VideoDaNoticia } from "@/components/site/VideoDaNoticia";
 import { Carrossel } from "@/components/ui/Carrossel";
+import { carregarTextos } from "@/lib/dados/textos";
 import { Container } from "@/components/ui/Container";
 import { Etiqueta } from "@/components/ui/Etiqueta";
 import { Foto } from "@/components/ui/Foto";
@@ -23,6 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PaginaNoticia({ params }: Props) {
+  const t = await carregarTextos();
   const { slug } = await params;
   const noticia = await noticiaPorSlug(slug);
 
@@ -100,8 +102,7 @@ export default async function PaginaNoticia({ params }: Props) {
           <div className="mt-12 rounded-2xl border border-linha bg-areia p-6">
             <p className="font-semibold">Compartilhe esta notícia</p>
             <p className="mt-1 text-sm text-tinta-suave">
-              Cada notícia tem endereço próprio, o que facilita o compartilhamento no WhatsApp e nas redes
-              sociais.
+              {t("noticia.compartilhar.texto")}
             </p>
             <code className="mt-3 block overflow-x-auto rounded-lg bg-white px-4 py-2.5 text-sm text-tinta-suave">
               iearaujodutra.com.br/noticias/{noticia.slug}

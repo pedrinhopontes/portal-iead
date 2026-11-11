@@ -6,6 +6,7 @@ import { Botao } from "@/components/ui/Botao";
 import { Container } from "@/components/ui/Container";
 import { Secao } from "@/components/ui/Secao";
 import { campanhaVigente, participantesDaCampanha } from "@/lib/dados/apadrinhamento";
+import { carregarTextos } from "@/lib/dados/textos";
 
 export const metadata: Metadata = {
   title: "Participantes do Apadrinhamento",
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function Participantes() {
+  const t = await carregarTextos();
   const campanha = await campanhaVigente();
   const participantes = campanha ? await participantesDaCampanha(campanha.id) : [];
 
@@ -24,16 +26,15 @@ export default async function Participantes() {
     <>
       <CapaPagina
         sobretitulo={campanha ? `Campanha ${campanha.ano}` : "Apadrinhamento"}
-        titulo="Escolha um participante"
-        texto="Cada criança aparece com o primeiro nome, a idade, os tamanhos de roupa e calçado e o que gostaria de ganhar — o necessário para você escolher e comprar o presente certo."
+        titulo={t("participantes.capa.titulo")}
+        texto={t("participantes.capa.texto")}
       />
 
       <Secao fundo="areia">
         <Container>
           {!campanha && (
-            <Aviso titulo="Nenhuma campanha aberta no momento" tom="informativo">
-              Quando a próxima campanha de apadrinhamento for aberta pelo Instituto, os participantes
-              aparecem aqui.
+            <Aviso titulo={t("participantes.sem-campanha.titulo")} tom="informativo">
+              {t("participantes.sem-campanha.texto")}
             </Aviso>
           )}
 
@@ -41,16 +42,13 @@ export default async function Participantes() {
             <>
               <div className="grid gap-5 lg:grid-cols-2">
                 {campanha.observacao && (
-                  <Aviso titulo="Lista de demonstração" tom="demonstracao">
+                  <Aviso titulo={t("participantes.demonstracao.titulo")} tom="demonstracao">
                     {campanha.observacao}
                   </Aviso>
                 )}
 
-                <Aviso titulo="O que nunca aparece nesta página" tom="protecao">
-                  Sobrenome, endereço, escola, nome dos responsáveis e qualquer contato pessoal ficam em
-                  tabela separada do banco de dados, acessível apenas à coordenação. As fotografias são
-                  publicadas com o termo de autorização de imagem assinado pelo responsável e arquivado
-                  no Instituto.
+                <Aviso titulo={t("participantes.protecao.titulo")} tom="protecao">
+                  {t("participantes.protecao.texto")}
                 </Aviso>
               </div>
 
@@ -61,7 +59,7 @@ export default async function Participantes() {
                 />
               </div>
 
-              <Aviso titulo="Como funciona a reserva" tom="informativo" className="mt-12">
+              <Aviso titulo={t("participantes.reserva.titulo")} tom="informativo" className="mt-12">
                 Ao escolher um participante, ele sai da lista na hora e fica reservado para você por{" "}
                 {campanha.horas_reserva} horas. Nesse prazo, a equipe do Instituto entra em contato para
                 confirmar. Se a confirmação não acontecer, a reserva vence sozinha e o participante volta

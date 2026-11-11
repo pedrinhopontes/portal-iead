@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { Icone } from "@/components/ui/Icone";
 import { Secao } from "@/components/ui/Secao";
 import { categoriasDeNoticia, listarNoticias, type CategoriaNoticia } from "@/lib/dados/conteudo";
+import { carregarTextos } from "@/lib/dados/textos";
 
 export const metadata: Metadata = {
   title: "Notícias e Eventos",
@@ -20,7 +21,11 @@ export default async function Noticias({
 }: {
   searchParams: Promise<{ categoria?: string }>;
 }) {
-  const [noticias, { categoria }] = await Promise.all([listarNoticias(), searchParams]);
+  const [noticias, { categoria }, t] = await Promise.all([
+    listarNoticias(),
+    searchParams,
+    carregarTextos(),
+  ]);
 
   const categoriaAtiva = categoriasDeNoticia.includes(categoria as CategoriaNoticia)
     ? (categoria as CategoriaNoticia)
@@ -29,16 +34,16 @@ export default async function Noticias({
   return (
     <>
       <CapaPagina
-        sobretitulo="Notícias e eventos"
-        titulo="O que acontece no Instituto"
-        texto="Atividades dos projetos, campanhas, conquistas, parcerias e comunicados. Cada notícia tem endereço próprio, pronto para compartilhar no WhatsApp e nas redes."
+        sobretitulo={t("noticias.capa.sobretitulo")}
+        titulo={t("noticias.capa.titulo")}
+        texto={t("noticias.capa.texto")}
       />
 
       <Secao fundo="areia">
         <Container>
           {noticias.length === 0 ? (
-            <Aviso titulo="Nenhuma notícia publicada ainda" tom="informativo">
-              As notícias escritas no painel aparecem aqui assim que forem marcadas como publicadas.
+            <Aviso titulo={t("noticias.vazio.titulo")} tom="informativo">
+              {t("noticias.vazio.texto")}
             </Aviso>
           ) : (
             <ListaNoticias noticias={noticias} categoriaAtiva={categoriaAtiva} />

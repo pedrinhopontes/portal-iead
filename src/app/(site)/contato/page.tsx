@@ -5,6 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { Icone } from "@/components/ui/Icone";
 import { Secao } from "@/components/ui/Secao";
 import { instituto } from "@/lib/instituto";
+import { carregarTextos } from "@/lib/dados/textos";
 
 export const metadata: Metadata = {
   title: "Contato",
@@ -22,13 +23,14 @@ const assuntos = [
   "Outro assunto",
 ];
 
-export default function Contato() {
+export default async function Contato() {
+  const t = await carregarTextos();
   return (
     <>
       <CapaPagina
-        sobretitulo="Contato"
-        titulo="Faça-nos uma visita"
-        texto="O Instituto fica em Guadalupe, no Rio de Janeiro. Você pode aparecer, ligar, escrever ou chamar no WhatsApp."
+        sobretitulo={t("contato.capa.sobretitulo")}
+        titulo={t("contato.capa.titulo")}
+        texto={t("contato.capa.texto")}
       />
 
       <Secao fundo="branco">
@@ -98,8 +100,7 @@ export default function Contato() {
 
                 <label className="flex items-start gap-3 text-sm text-tinta-suave">
                   <input type="checkbox" name="consentimento" className="mt-1 h-4 w-4" />
-                  Autorizo o IEAD a usar os dados acima para responder a esta mensagem, conforme a Política de
-                  Privacidade.
+                  {t("contato.consentimento")}
                 </label>
 
                 <button
@@ -111,9 +112,8 @@ export default function Contato() {
                 </button>
               </form>
 
-              <Aviso titulo="Formulário desativado neste protótipo" tom="demonstracao" className="mt-6">
-                O envio entra em funcionamento junto com o painel administrativo, que vai receber as mensagens
-                e encaminhar para a área responsável.
+              <Aviso titulo={t("contato.aviso.titulo")} tom="demonstracao" className="mt-6">
+                {t("contato.aviso.texto")}
               </Aviso>
             </div>
 
@@ -159,8 +159,7 @@ export default function Contato() {
                 <Icone nome="local" className="h-7 w-7 text-verde-escuro/70" />
                 <p className="text-sm font-semibold text-verde-escuro">Mapa da sede</p>
                 <p className="max-w-xs text-xs text-tinta-suave">
-                  O mapa incorporado entra na implementação, com opção de carregamento sob consentimento de
-                  cookies.
+                  {t("contato.mapa.nota")}
                 </p>
               </div>
 

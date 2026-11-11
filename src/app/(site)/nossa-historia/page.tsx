@@ -10,6 +10,7 @@ import { Icone } from "@/components/ui/Icone";
 import { Secao } from "@/components/ui/Secao";
 import { anoTemTexto, linhaDoTempo } from "@/lib/dados/conteudo";
 import { slotsComFoto } from "@/lib/dados/fotos-do-site";
+import { carregarTextos } from "@/lib/dados/textos";
 
 export const metadata: Metadata = {
   title: "Nossa História | 10 Anos",
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function NossaHistoria() {
+  const t = await carregarTextos();
   const anos = await linhaDoTempo();
 
   // Resolve as fotos de todos os anos de uma vez, para a árvore de componentes
@@ -33,9 +35,9 @@ export default async function NossaHistoria() {
   return (
     <>
       <CapaPagina
-        sobretitulo="2016 — 2026"
-        titulo="Nossa história, ano a ano"
-        texto="Uma linha do tempo permanente. Cada ano guarda o seu próprio capítulo: textos, fotografias, vídeos, conquistas e parcerias. A partir de 2027, novos anos são acrescentados pelo painel administrativo."
+        sobretitulo={t("historia.capa.sobretitulo")}
+        titulo={t("historia.capa.titulo")}
+        texto={t("historia.capa.texto")}
       >
         <Botao href="/nossa-historia/10-anos" tamanho="lg" comSeta>
           Página especial dos 10 anos
@@ -45,8 +47,8 @@ export default async function NossaHistoria() {
       <Secao fundo="branco">
         <Container>
           {anos.length === 0 ? (
-            <Aviso titulo="Linha do tempo ainda vazia" tom="informativo">
-              Os anos cadastrados no painel aparecem aqui.
+            <Aviso titulo={t("historia.vazio.titulo")} tom="informativo">
+              {t("historia.vazio.texto")}
             </Aviso>
           ) : (
             <ol className="relative space-y-10 border-l-2 border-linha pl-8 sm:pl-12">
@@ -153,8 +155,7 @@ export default async function NossaHistoria() {
             <div className="max-w-2xl">
               <h2 className="text-2xl font-semibold">Tem registros destes anos?</h2>
               <p className="mt-3 text-tinta-suave">
-                Fotografias, vídeos, recortes de jornal, atas, listas de presença e certificados ajudam a
-                reconstruir a história entre 2020 e 2025. Todo material enviado é creditado e arquivado.
+                {t("historia.acervo.texto")}
               </p>
             </div>
             <Link

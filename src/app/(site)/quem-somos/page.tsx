@@ -9,6 +9,7 @@ import { Icone } from "@/components/ui/Icone";
 import { Secao } from "@/components/ui/Secao";
 import { TituloSecao } from "@/components/ui/TituloSecao";
 import { listarParceiros } from "@/lib/dados/conteudo";
+import { carregarTextos } from "@/lib/dados/textos";
 import { instituto, textoQuemSomosAtual } from "@/lib/instituto";
 
 export const dynamic = "force-dynamic";
@@ -21,21 +22,22 @@ export const metadata: Metadata = {
 
 const valoresCitados = ["Solidariedade", "Equidade", "Justiça social", "Convivência comunitária"];
 
-const governanca = [
-  { titulo: "Equipe", descricao: "Educadores, coordenação e apoio que acompanham as turmas no dia a dia." },
-  { titulo: "Diretoria", descricao: "Responsável pela condução institucional do Instituto." },
-  { titulo: "Conselhos", descricao: "Instâncias de acompanhamento e fiscalização previstas no estatuto." },
-];
+const chavesDaGovernanca = [
+  { titulo: "quem-somos.governanca.equipe.titulo", descricao: "quem-somos.governanca.equipe.texto" },
+  { titulo: "quem-somos.governanca.diretoria.titulo", descricao: "quem-somos.governanca.diretoria.texto" },
+  { titulo: "quem-somos.governanca.conselhos.titulo", descricao: "quem-somos.governanca.conselhos.texto" },
+] as const;
 
 export default async function QuemSomos() {
+  const t = await carregarTextos();
   const parceiros = await listarParceiros();
 
   return (
     <>
       <CapaPagina
-        sobretitulo="Quem somos"
-        titulo="Um instituto nascido e enraizado em Guadalupe"
-        texto="Desde 2016, o IEAD trabalha para que a educação chegue onde ela mais transforma: perto de casa, todos os dias, com quem conhece cada família pelo nome."
+        sobretitulo={t("quem-somos.capa.sobretitulo")}
+        titulo={t("quem-somos.capa.titulo")}
+        texto={t("quem-somos.capa.texto")}
       />
 
       <Secao fundo="branco">
@@ -44,10 +46,9 @@ export default async function QuemSomos() {
             <div className="space-y-5 text-lg leading-relaxed text-tinta-suave">
               <p>{textoQuemSomosAtual}</p>
               <p>
-                O Instituto atende crianças, adolescentes, jovens, mulheres e pessoas idosas por meio de
-                projetos socioeducativos, culturais e de fortalecimento de vínculos.
+                {t("quem-somos.intro.paragrafo")}
               </p>
-              <Aviso titulo="Em revisão com o Instituto" tom="pendente">
+              <Aviso titulo={t("quem-somos.aviso-revisao.titulo")} tom="pendente">
                 A história completa do IEAD, a descrição da sua qualificação jurídica e a razão social
                 registrada precisam ser confirmadas. O site atual publica &quot;
                 {instituto.razaoSocialNoSiteAtual}&quot;, enquanto a marca usa &quot;Instituto&quot;.
@@ -68,31 +69,34 @@ export default async function QuemSomos() {
       <Secao fundo="areia" id="missao">
         <Container>
           <TituloSecao
-            sobretitulo="Missão, visão e valores"
-            titulo="O que nos move"
-            texto="A missão abaixo é a que o Instituto publica hoje. Visão e valores precisam ser formalizados pela diretoria."
+            sobretitulo={t("quem-somos.missao.sobretitulo")}
+            titulo={t("quem-somos.missao.titulo")}
+            texto={t("quem-somos.missao.texto")}
           />
 
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             <div className="rounded-2xl border border-linha bg-white p-7">
-              <p className="text-xs font-bold uppercase tracking-widest text-verde-escuro">Missão</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-verde-escuro">
+                {t("quem-somos.missao.rotulo")}
+              </p>
               <p className="mt-3 leading-relaxed text-tinta-suave">
-                Através da educação, propiciar a crianças, adolescentes e idosos uma convivência comunitária
-                fundamentada nos valores da solidariedade, da equidade e da justiça social, nos bairros do Rio
-                de Janeiro com baixo índice de desenvolvimento humano.
+                {t("quem-somos.missao.conteudo")}
               </p>
             </div>
 
             <div className="rounded-2xl border border-dashed border-tinta/25 bg-transparent p-7">
-              <p className="text-xs font-bold uppercase tracking-widest text-tinta-suave">Visão</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-tinta-suave">
+                {t("quem-somos.visao.rotulo")}
+              </p>
               <p className="mt-3 leading-relaxed text-tinta-suave">
-                Aguardando o texto oficial aprovado pela diretoria. Este espaço fica reservado e será
-                preenchido pelo painel administrativo.
+                {t("quem-somos.visao.conteudo")}
               </p>
             </div>
 
             <div className="rounded-2xl border border-linha bg-white p-7">
-              <p className="text-xs font-bold uppercase tracking-widest text-verde-escuro">Valores</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-verde-escuro">
+                {t("quem-somos.valores.rotulo")}
+              </p>
               <ul className="mt-3 space-y-2">
                 {valoresCitados.map((valor) => (
                   <li key={valor} className="flex items-center gap-2 text-tinta-suave">
@@ -102,7 +106,7 @@ export default async function QuemSomos() {
                 ))}
               </ul>
               <p className="mt-4 text-xs text-tinta-suave">
-                Valores extraídos do texto institucional atual. A lista oficial precisa ser confirmada.
+                {t("quem-somos.valores.nota")}
               </p>
             </div>
           </div>
@@ -115,18 +119,16 @@ export default async function QuemSomos() {
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <TituloSecao
               claro
-              sobretitulo="Nossa atuação"
-              titulo="O papel do IEAD na comunidade de Guadalupe"
-              texto="Estar no bairro muda tudo: a criança chega a pé, a família conhece a equipe e o acompanhamento não depende de transporte nem de agendamento distante."
+              sobretitulo={t("quem-somos.atuacao.sobretitulo")}
+              titulo={t("quem-somos.atuacao.titulo")}
+              texto={t("quem-somos.atuacao.texto")}
             />
             <div className="rounded-2xl border border-dashed border-white/40 bg-white/10 p-8 text-white/90">
               <p>
-                Esta seção receberá o texto sobre a presença do Instituto no território: histórico de
-                ocupação do espaço, articulação com escolas e serviços públicos, e os dados do bairro que
-                justificam a atuação.
+                {t("quem-somos.atuacao.paragrafo")}
               </p>
               <p className="mt-4 text-sm text-white/90">
-                Aguardando o conteúdo do Instituto. Nenhum dado socioeconômico foi inserido por conta própria.
+                {t("quem-somos.atuacao.nota")}
               </p>
             </div>
           </div>
@@ -137,35 +139,34 @@ export default async function QuemSomos() {
       <Secao fundo="branco" id="governanca">
         <Container>
           <TituloSecao
-            sobretitulo="Governança"
-            titulo="Equipe, diretoria e conselhos"
-            texto="A composição será publicada com nome, cargo e período de mandato — somente com autorização de cada pessoa."
+            sobretitulo={t("quem-somos.governanca.sobretitulo")}
+            titulo={t("quem-somos.governanca.titulo")}
+            texto={t("quem-somos.governanca.texto")}
           />
 
           <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {governanca.map((bloco) => (
+            {chavesDaGovernanca.map((bloco) => (
               <div key={bloco.titulo} className="rounded-2xl border border-linha bg-areia p-7">
                 <p className="flex items-center gap-2 text-lg font-semibold">
                   <Icone nome="pessoas" className="h-5 w-5 text-verde-escuro" />
-                  {bloco.titulo}
+                  {t(bloco.titulo)}
                 </p>
-                <p className="mt-2 text-sm leading-relaxed text-tinta-suave">{bloco.descricao}</p>
+                <p className="mt-2 text-sm leading-relaxed text-tinta-suave">{t(bloco.descricao)}</p>
                 <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-amber-700">
-                  Aguardando lista autorizada
+                  {t("quem-somos.governanca.aguardando")}
                 </p>
               </div>
             ))}
           </div>
 
           <div className="mt-10 rounded-2xl border border-linha bg-areia p-7">
-            <h3 className="text-lg font-semibold">Documentos institucionais</h3>
+            <h3 className="text-lg font-semibold">{t("quem-somos.documentos.titulo")}</h3>
             <p className="mt-2 text-sm leading-relaxed text-tinta-suave">
-              Estatuto social, atas, documentos de regularidade e certificações ficam reunidos no Portal da
-              Transparência, com filtro por ano e data da última atualização.
+              {t("quem-somos.documentos.texto")}
             </p>
             <SeArea href="/transparencia">
               <Botao href="/transparencia" variante="secundario" comSeta className="mt-5">
-                Ir para a transparência
+                {t("quem-somos.documentos.botao")}
               </Botao>
             </SeArea>
           </div>
@@ -175,7 +176,10 @@ export default async function QuemSomos() {
       {/* Parceiros */}
       <Secao fundo="creme" compacta>
         <Container>
-          <TituloSecao sobretitulo="Parceiros" titulo="Redes e articulações" />
+          <TituloSecao
+            sobretitulo={t("quem-somos.parceiros.sobretitulo")}
+            titulo={t("quem-somos.parceiros.titulo")}
+          />
           <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {parceiros.map((parceiro) => (
               <li key={parceiro.nome} className="rounded-xl border border-linha bg-white px-5 py-4">

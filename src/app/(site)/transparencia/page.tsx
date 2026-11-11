@@ -19,6 +19,7 @@ import {
   resumirPorAno,
   ultimaAtualizacao,
 } from "@/lib/dados/transparencia";
+import { carregarTextos } from "@/lib/dados/textos";
 
 export const metadata: Metadata = {
   title: "Portal da Transparência",
@@ -31,6 +32,7 @@ export const dynamic = "force-dynamic";
 type Props = { searchParams: Promise<{ ano?: string; categoria?: string }> };
 
 export default async function Transparencia({ searchParams }: Props) {
+  const t = await carregarTextos();
   const [documentos, financas, atualizadoEm, filtros] = await Promise.all([
     listarDocumentos(),
     listarFinancas(),
@@ -70,9 +72,9 @@ export default async function Transparencia({ searchParams }: Props) {
   return (
     <>
       <CapaPagina
-        sobretitulo="Portal da Transparência"
-        titulo="Prestação de contas aberta"
-        texto="Quem apoia o Instituto tem o direito de saber de onde vêm e para onde vão os recursos. Esta área reúne os documentos oficiais, organizados por categoria e por ano."
+        sobretitulo={t("transparencia.capa.sobretitulo")}
+        titulo={t("transparencia.capa.titulo")}
+        texto={t("transparencia.capa.texto")}
       >
         <p className="flex items-center gap-2 text-sm font-semibold text-tinta-suave">
           <Icone nome="relogio" className="h-4 w-4" />
@@ -91,9 +93,9 @@ export default async function Transparencia({ searchParams }: Props) {
       <Secao fundo="branco">
         <Container>
           <TituloSecao
-            sobretitulo="Receitas e despesas"
-            titulo="Para onde vai cada real"
-            texto="Os gráficos são gerados a partir dos valores publicados pelo Instituto, nunca de estimativas."
+            sobretitulo={t("transparencia.financas.sobretitulo")}
+            titulo={t("transparencia.financas.titulo")}
+            texto={t("transparencia.financas.texto")}
           />
           <div className="mt-10">
             <GraficoFinancas dados={resumo} />
@@ -104,7 +106,10 @@ export default async function Transparencia({ searchParams }: Props) {
       {/* ---------------- Documentos ---------------- */}
       <Secao fundo="areia" id="documentos">
         <Container>
-          <TituloSecao sobretitulo="Documentos" titulo="O que está publicado" />
+          <TituloSecao
+            sobretitulo={t("transparencia.documentos.sobretitulo")}
+            titulo={t("transparencia.documentos.titulo")}
+          />
 
           <div className="mt-8 rounded-2xl border border-linha bg-white p-6">
             <p className="text-sm font-bold uppercase tracking-wider text-tinta-suave">Categoria</p>
@@ -141,14 +146,12 @@ export default async function Transparencia({ searchParams }: Props) {
           </div>
 
           {documentos.length === 0 ? (
-            <Aviso titulo="Nenhum documento publicado até o momento" tom="pendente" className="mt-8">
-              A estrutura está pronta e vazia de propósito: nenhum balanço, certificação ou auditoria foi
-              criado. Assim que o Instituto enviar os arquivos oficiais, eles aparecem aqui com a data de
-              publicação.
+            <Aviso titulo={t("transparencia.vazio.titulo")} tom="pendente" className="mt-8">
+              {t("transparencia.vazio.texto")}
             </Aviso>
           ) : visiveis.length === 0 ? (
             <p className="mt-8 rounded-2xl border border-dashed border-tinta/20 p-10 text-center text-tinta-suave">
-              Nenhum documento com esses filtros.
+              {t("transparencia.sem-filtro")}
             </p>
           ) : (
             <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -217,7 +220,11 @@ export default async function Transparencia({ searchParams }: Props) {
       <Secao fundo="ardosia" compacta>
         <Container>
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <TituloSecao claro sobretitulo="Limites" titulo="O que este portal nunca publica" />
+            <TituloSecao
+              claro
+              sobretitulo={t("transparencia.limites.sobretitulo")}
+              titulo={t("transparencia.limites.titulo")}
+            />
             <ul className="space-y-3">
               {naoPublicamos.map((item) => (
                 <li key={item} className="flex items-start gap-3 text-white/85">
@@ -233,9 +240,8 @@ export default async function Transparencia({ searchParams }: Props) {
       <Secao fundo="creme" compacta>
         <Container>
           <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
-            <Aviso titulo="Nada foi inventado nesta página" tom="protecao" className="max-w-2xl">
-              Balanços, certificações, auditorias e valores financeiros só aparecem quando existirem de
-              fato, com o documento que os comprova. Até lá, cada categoria mostra o seu estado real.
+            <Aviso titulo={t("transparencia.nada-inventado.titulo")} tom="protecao" className="max-w-2xl">
+              {t("transparencia.nada-inventado.texto")}
             </Aviso>
             <Botao href="/contato" variante="secundario" comSeta>
               Solicitar um documento
