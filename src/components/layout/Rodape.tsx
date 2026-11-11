@@ -3,9 +3,18 @@ import { Marca } from "@/components/layout/Marca";
 import { Container } from "@/components/ui/Container";
 import { Icone } from "@/components/ui/Icone";
 import { instituto } from "@/lib/instituto";
+import { areasOcultas } from "@/lib/dados/areas";
 import { rodapeInstitucional, rodapeParticipe } from "@/lib/navegacao";
 
-export function Rodape() {
+export async function Rodape() {
+  // Um link de rodapé para uma área oculta é ponta solta: a aba some do menu
+  // e o visitante chega lá pelo rodapé assim mesmo. O "#missao" é cortado
+  // antes de comparar — o que conta é a área, não a âncora dentro dela.
+  const ocultas = await areasOcultas();
+  const visivel = (href: string) => !ocultas.includes(href.split("#")[0]);
+  const institucional = rodapeInstitucional.filter((i) => visivel(i.href));
+  const participe = rodapeParticipe.filter((i) => visivel(i.href));
+
   return (
     <footer className="bg-ardosia text-white">
       <Container className="py-14">
@@ -52,7 +61,7 @@ export function Rodape() {
               O Instituto
             </h2>
             <ul className="mt-4 space-y-2.5 text-sm text-white/75">
-              {rodapeInstitucional.map((item) => (
+              {institucional.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="hover:text-white hover:underline">
                     {item.rotulo}
@@ -67,7 +76,7 @@ export function Rodape() {
               Participe
             </h2>
             <ul className="mt-4 space-y-2.5 text-sm text-white/75">
-              {rodapeParticipe.map((item) => (
+              {participe.map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="hover:text-white hover:underline">
                     {item.rotulo}
@@ -112,9 +121,11 @@ export function Rodape() {
             <Link href="/privacidade" className="hover:text-white hover:underline">
               Política de Privacidade
             </Link>
-            <Link href="/transparencia" className="hover:text-white hover:underline">
-              Portal da Transparência
-            </Link>
+            {visivel("/transparencia") && (
+              <Link href="/transparencia" className="hover:text-white hover:underline">
+                Portal da Transparência
+              </Link>
+            )}
             <span>© {instituto.fundacao}–2026 IEAD</span>
           </div>
         </div>

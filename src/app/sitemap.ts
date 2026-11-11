@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { campanhasAnteriores, campanhaVigente } from "@/lib/dados/apadrinhamento";
+import { areasOcultas } from "@/lib/dados/areas";
 import { listarNoticias, listarProjetos } from "@/lib/dados/conteudo";
 
 const SITE = "https://iearaujodutra.com.br";
@@ -15,11 +16,12 @@ const SITE = "https://iearaujodutra.com.br";
  * participantes e o formulário de apadrinhamento.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [projetos, noticias, vigente, anteriores] = await Promise.all([
+  const [projetos, noticias, vigente, anteriores, ocultas] = await Promise.all([
     listarProjetos(),
     listarNoticias(),
     campanhaVigente(),
     campanhasAnteriores(),
+    areasOcultas(),
   ]);
 
   const fixas: MetadataRoute.Sitemap = [
@@ -57,5 +59,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: campanha.status === "aberta" ? 0.8 : 0.4,
   }));
 
-  return [...fixas, ...deProjetos, ...deNoticias, ...deCampanhas];
+  // Área oculta sai do mapa junto com o que vive dentro dela. Entregar ao
+  // Google uma página que o Instituto decidiu não anunciar seria contraditório:
+  // ela sumiria do menu e apareceria na busca.
+  const escondida = (url: string) => {
+    const caminho = url.slice(SITE.length);
+    return ocultas.some((area) => caminho === area || caminho.startsWith(area + "/"));
+  };
+
+  return [...fixas, ...deProjetos, ...deNoticias, ...deCampanhas].filter(
+    (entrada) => !escondida(entrada.url),
+  );
 }

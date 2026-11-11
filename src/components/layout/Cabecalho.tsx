@@ -7,9 +7,14 @@ import { Marca } from "@/components/layout/Marca";
 import { Container } from "@/components/ui/Container";
 import { Icone } from "@/components/ui/Icone";
 import { instituto } from "@/lib/instituto";
-import { menuPrincipal } from "@/lib/navegacao";
+import type { ItemDeMenu } from "@/lib/navegacao";
 
-export function Cabecalho() {
+/**
+ * O menu chega pronto, de quem renderiza: o cabeçalho é componente de
+ * cliente e não consulta o banco. Quais áreas aparecem é decisão do
+ * Instituto, guardada em site_settings e resolvida no servidor.
+ */
+export function Cabecalho({ itens }: { itens: ItemDeMenu[] }) {
   const [aberto, setAberto] = useState(false);
   const caminho = usePathname();
 
@@ -62,7 +67,7 @@ export function Cabecalho() {
         </Link>
 
         <nav aria-label="Menu principal" className="hidden items-center gap-1 xl:flex">
-          {menuPrincipal.map((item) => (
+          {itens.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -103,7 +108,7 @@ export function Cabecalho() {
         <div id="menu-mobile" className="border-t border-linha bg-white xl:hidden">
           <Container className="py-4">
             <nav aria-label="Menu principal (celular)" className="flex flex-col">
-              {menuPrincipal.map((item) => (
+              {itens.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}

@@ -90,6 +90,12 @@ export const menuPainel: ItemPainel[] = [
     perfis: ["admin"],
   },
   {
+    href: "/admin/areas",
+    rotulo: "O que aparece no site",
+    descricao: "Esconder do menu as áreas que ainda não têm conteúdo",
+    perfis: ["admin", "comunicacao"],
+  },
+  {
     href: "/admin/auditoria",
     rotulo: "Registro de alterações",
     descricao: "Quem mudou o quê e quando",

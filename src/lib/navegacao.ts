@@ -1,3 +1,8 @@
+/** Um item do menu. Fica aqui, e nao em dados/areas.ts, porque o cabecalho
+ * e componente de cliente: importar de um modulo que puxa `next/headers`
+ * arrasta o servidor para dentro do pacote do navegador. */
+export type ItemDeMenu = { rotulo: string; rotuloCurto: string; href: string };
+
 /** Menu principal do portal, conforme a estrutura aprovada no briefing. */
 export const menuPrincipal = [
   { rotulo: "Início", rotuloCurto: "Início", href: "/" },

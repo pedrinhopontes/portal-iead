@@ -1,3 +1,4 @@
+import { SeArea } from "@/components/site/SeArea";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CapaPagina } from "@/components/site/CapaPagina";
@@ -141,9 +142,11 @@ export default async function PaginaProjeto({ params }: Props) {
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Botao href="/seja-filiado" variante="claro" comSeta>
-                Apoiar todo mês
-              </Botao>
+              <SeArea href="/seja-filiado">
+                <Botao href="/seja-filiado" variante="claro" comSeta>
+                  Apoiar todo mês
+                </Botao>
+              </SeArea>
               <Botao
                 href="/contato"
                 variante="contorno"

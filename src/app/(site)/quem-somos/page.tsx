@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { CapaPagina } from "@/components/site/CapaPagina";
+import { SeArea } from "@/components/site/SeArea";
 import { Aviso } from "@/components/ui/Aviso";
 import { Botao } from "@/components/ui/Botao";
 import { Container } from "@/components/ui/Container";
@@ -162,9 +163,11 @@ export default async function QuemSomos() {
               Estatuto social, atas, documentos de regularidade e certificações ficam reunidos no Portal da
               Transparência, com filtro por ano e data da última atualização.
             </p>
-            <Botao href="/transparencia" variante="secundario" comSeta className="mt-5">
-              Ir para a transparência
-            </Botao>
+            <SeArea href="/transparencia">
+              <Botao href="/transparencia" variante="secundario" comSeta className="mt-5">
+                Ir para a transparência
+              </Botao>
+            </SeArea>
           </div>
         </Container>
       </Secao>

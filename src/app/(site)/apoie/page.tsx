@@ -1,3 +1,4 @@
+import { SeArea } from "@/components/site/SeArea";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CapaPagina } from "@/components/site/CapaPagina";
@@ -116,13 +117,18 @@ export default async function Apoie() {
                       Confira o nome no seu aplicativo antes de confirmar — é assim que você sabe que o
                       dinheiro vai para o Instituto.
                     </p>
-                    <p className="mt-3 text-sm text-tinta-suave">
-                      Prefere um código pronto, com valor e identificação?{" "}
-                      <Link href="/seja-filiado" className="font-semibold text-bordo hover:underline">
-                        Gere o seu PIX aqui
-                      </Link>
-                      .
-                    </p>
+                    <SeArea href="/seja-filiado">
+                      <p className="mt-3 text-sm text-tinta-suave">
+                        Prefere um código pronto, com valor e identificação?{" "}
+                        <Link
+                          href="/seja-filiado"
+                          className="font-semibold text-bordo hover:underline"
+                        >
+                          Gere o seu PIX aqui
+                        </Link>
+                        .
+                      </p>
+                    </SeArea>
                   </>
                 ) : (
                   <>

@@ -9,6 +9,7 @@ import { Container } from "@/components/ui/Container";
 import { Foto } from "@/components/ui/Foto";
 import { Etiqueta } from "@/components/ui/Etiqueta";
 import { Icone } from "@/components/ui/Icone";
+import { SeArea } from "@/components/site/SeArea";
 import { Secao } from "@/components/ui/Secao";
 import { TituloSecao } from "@/components/ui/TituloSecao";
 import { campanhaVigente } from "@/lib/dados/apadrinhamento";
@@ -76,12 +77,16 @@ export default async function PaginaInicial() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Botao href="/projetos" tamanho="lg" comSeta>
-                Conheça nossos projetos
-              </Botao>
-              <Botao href="/apadrinhamento" variante="contorno" tamanho="lg">
-                Apadrinhe neste Natal
-              </Botao>
+              <SeArea href="/projetos">
+                <Botao href="/projetos" tamanho="lg" comSeta>
+                  Conheça nossos projetos
+                </Botao>
+              </SeArea>
+              <SeArea href="/apadrinhamento">
+                <Botao href="/apadrinhamento" variante="contorno" tamanho="lg">
+                  Apadrinhe neste Natal
+                </Botao>
+              </SeArea>
             </div>
 
             <p className="mt-8 flex items-center gap-2 text-sm text-tinta-suave">
@@ -122,9 +127,11 @@ export default async function PaginaInicial() {
                 Este parágrafo foi preservado do site atual com ajustes de redação. A descrição jurídica do
                 Instituto (OSC, OSCIP ou outra qualificação) precisa de revisão antes da publicação.
               </Aviso>
-              <Botao href="/quem-somos" variante="secundario" comSeta className="self-start">
-                Conhecer o Instituto
-              </Botao>
+              <SeArea href="/quem-somos">
+                <Botao href="/quem-somos" variante="secundario" comSeta className="self-start">
+                  Conhecer o Instituto
+                </Botao>
+              </SeArea>
             </div>
           </div>
 
@@ -140,6 +147,7 @@ export default async function PaginaInicial() {
       </Secao>
 
       {/* ---------- Projetos ---------- */}
+      <SeArea href="/projetos">
       <Secao fundo="areia">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-6">
@@ -160,8 +168,10 @@ export default async function PaginaInicial() {
           </div>
         </Container>
       </Secao>
+      </SeArea>
 
       {/* ---------- Apadrinhamento ---------- */}
+      <SeArea href="/apadrinhamento">
       <Secao fundo="bordo">
         <Container>
           <div className="grid gap-12 lg:grid-cols-[1fr_0.85fr] lg:items-center">
@@ -220,8 +230,10 @@ export default async function PaginaInicial() {
           </div>
         </Container>
       </Secao>
+      </SeArea>
 
       {/* ---------- 10 anos ---------- */}
+      <SeArea href="/nossa-historia">
       <Secao fundo="creme">
         <Container>
           <TituloSecao
@@ -261,8 +273,10 @@ export default async function PaginaInicial() {
           </div>
         </Container>
       </Secao>
+      </SeArea>
 
       {/* ---------- Filiação e contribuição mensal ---------- */}
+      <SeArea href="/seja-filiado">
       <Secao fundo="branco">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
@@ -308,8 +322,10 @@ export default async function PaginaInicial() {
           </div>
         </Container>
       </Secao>
+      </SeArea>
 
       {/* ---------- Notícias ---------- */}
+      <SeArea href="/noticias">
       <Secao fundo="areia">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-6">
@@ -330,6 +346,7 @@ export default async function PaginaInicial() {
           </div>
         </Container>
       </Secao>
+      </SeArea>
 
       {/* ---------- Depoimentos ---------- */}
       <Secao fundo="verde" compacta>
@@ -402,6 +419,7 @@ export default async function PaginaInicial() {
       {/* ---------- Transparência ----------
           Verde, e não ardósia: o rodapé é ardósia, e duas faixas da mesma cor
           coladas viram um bloco escuro só, com o botão parecendo solto no vazio. */}
+      <SeArea href="/transparencia">
       <Secao fundo="verde" compacta>
         <Container>
           <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
@@ -424,6 +442,7 @@ export default async function PaginaInicial() {
           </div>
         </Container>
       </Secao>
+      </SeArea>
     </>
   );
 }
