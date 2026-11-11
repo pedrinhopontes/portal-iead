@@ -1,26 +1,112 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+  Design system do IEAD.
+
+  As cores de marca foram EXTRAÍDAS DA LOGO OFICIAL (public/imagens/marca/logo.png),
+  amostrando os pixels do arquivo. Não são aproximações:
+    #8c161a  bordô dos braços e do tronco superior
+    #7a1119  bordô do tronco inferior
+    #1c8214  verde das folhas
+
+  Os tons neutros (areia, creme, ardósia) não vêm da logo: são superfícies de apoio,
+  herdadas da identidade do site atual, escolhidas para não competir com a marca.
+
+  Contraste verificado contra branco (WCAG 2.2 AA, texto normal exige 4.5:1):
+    bordo #8c161a ........... 8,9:1   ok para texto e para fundo com texto branco
+    verde #1c8214 ........... 4,9:1   ok para texto e para fundo com texto branco
+    verde-escuro #156110 .... 7,0:1   ok para texto
+*/
+@theme {
+  --color-areia: #f7f6f0;
+  --color-creme: #e8e8da;
+  --color-creme-forte: #dcdbc6;
+
+  --color-bordo: #8c161a;
+  --color-bordo-escuro: #7a1119;
+  --color-bordo-suave: #f4e8e8;
+
+  --color-verde: #1c8214;
+  --color-verde-escuro: #156110;
+  --color-verde-suave: #e8f2e7;
+
+  --color-ardosia: #304254;
+  --color-tinta: #1f2420;
+  --color-tinta-suave: #5a635c;
+  --color-linha: #dedcc9;
+
+  --font-sans: var(--fonte-corpo), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: var(--fonte-titulo), Georgia, "Times New Roman", serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background-color: var(--color-areia);
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /*
+    Sem `color` aqui de propósito: o título herda a cor de quem o contém.
+    Fixar a cor escura fazia o h1 de uma faixa bordô sair escuro sobre bordô,
+    e só a auditoria de acessibilidade pegou — a olho nu ninguém abriu aquela
+    página. Em fundo claro o resultado é idêntico, porque o body já é tinta.
+  */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ardosia);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background-color: var(--color-verde-suave);
+    color: var(--color-tinta);
+  }
+
+  /* Marca d'água diagonal usada em todo espaço reservado a foto real. */
+  .hachura {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(79, 97, 55, 0.07) 10px,
+      rgba(79, 97, 55, 0.07) 20px
+    );
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

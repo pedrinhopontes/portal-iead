@@ -39,3 +39,32 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Fotos originais em alta resolucao (nao vao para o site nem para o repositorio)
+fotos-originais/
+
+# -----------------------------------------------------------------------------
+# Fotografias de crianças e adolescentes sem termo de autorização.
+#
+# Estas nove fotos estão marcadas como `autorizacao: "PENDENTE"` em
+# src/content/fotos.ts e o site já não as publica. Elas também não entram no
+# repositório, e o motivo é diferente: commit não se apaga.
+#
+# Um repositório público publica o HISTÓRICO, não só o estado atual. Se estas
+# fotos entrarem uma vez, tirá-las depois não resolve — ficam no histórico, nos
+# clones e nos forks de quem já baixou. Por isso elas ficam de fora desde o
+# começo, e não "até alguém lembrar de remover".
+#
+# Quando o Instituto enviar o termo de cada uma: apague a linha correspondente
+# aqui, troque "PENDENTE" pela referência do termo em fotos.ts, e aí sim ela
+# pode ser versionada e publicada.
+# -----------------------------------------------------------------------------
+public/imagens/acervo/acervo-percussao.jpg
+public/imagens/acervo/acervo-2019-1.jpg
+public/imagens/acervo/acervo-2020-1.jpg
+public/imagens/acervo/acervo-2021-1.jpg
+public/imagens/acervo/acervo-2022-1.jpg
+public/imagens/acervo/acervo-2023-1.jpg
+public/imagens/acervo/acervo-2024-1.jpg
+public/imagens/acervo/acervo-2025-1.jpg
+public/imagens/acervo/acervo-natal-bastidores.jpg
