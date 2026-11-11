@@ -15,6 +15,7 @@ import {
   formatarPrazo,
   formatarValor,
 } from "@/lib/dados/apadrinhamento";
+import { carregarTextos } from "@/lib/dados/textos";
 
 export const metadata: Metadata = {
   title: "Apadrinhamento de Natal",
@@ -42,6 +43,7 @@ const rotulosRegistro = {
 } as const;
 
 export default async function Apadrinhamento() {
+  const t = await carregarTextos();
   const campanha = await campanhaVigente();
   const anteriores = await campanhasAnteriores();
 
@@ -69,9 +71,8 @@ export default async function Apadrinhamento() {
       {!campanha && (
         <Secao fundo="areia" compacta>
           <Container>
-            <Aviso titulo="Nenhuma campanha aberta no momento" tom="informativo">
-              As campanhas anteriores continuam disponíveis abaixo, como acervo. Quando o Instituto abrir
-              a próxima, ela aparece aqui.
+            <Aviso titulo={t("apadrinhamento.sem-campanha.titulo")} tom="informativo">
+              {t("apadrinhamento.sem-campanha.texto")}
             </Aviso>
           </Container>
         </Secao>
@@ -82,16 +83,12 @@ export default async function Apadrinhamento() {
           <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
             <div>
               <TituloSecao
-                sobretitulo="O que é"
-                titulo="Um presente que chega com nome e com história"
-                texto={
-                  campanha?.descricao ??
-                  "O apadrinhamento de Natal conecta uma pessoa que quer ajudar a uma criança ou adolescente atendido pelo Instituto."
-                }
+                sobretitulo={t("apadrinhamento.o-que-e.sobretitulo")}
+                titulo={t("apadrinhamento.o-que-e.titulo")}
+                texto={campanha?.descricao ?? t("apadrinhamento.o-que-e.texto")}
               />
               <p className="mt-6 leading-relaxed text-tinta-suave">
-                A campanha acontece todos os anos desde 2018 e fica guardada no portal: cada edição ganha
-                a sua página permanente, com os registros daquele Natal.
+                {t("apadrinhamento.o-que-e.paragrafo")}
               </p>
             </div>
             <Foto
@@ -108,7 +105,10 @@ export default async function Apadrinhamento() {
         <>
           <Secao fundo="areia" id="como-participar">
             <Container>
-              <TituloSecao sobretitulo="Como participar" titulo="Sete passos, do começo ao fim" />
+              <TituloSecao
+                sobretitulo={t("apadrinhamento.como-participar.sobretitulo")}
+                titulo={t("apadrinhamento.como-participar.titulo")}
+              />
 
               <ol className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 {passos.map((passo, i) => (
@@ -125,21 +125,20 @@ export default async function Apadrinhamento() {
                 <div className="rounded-2xl border border-linha bg-white p-7">
                   <p className="flex items-center gap-2 text-lg font-semibold">
                     <Icone nome="presente" className="h-5 w-5 text-bordo" />
-                    Entregar o presente
+                    {t("apadrinhamento.entregar.titulo")}
                   </p>
                   <p className="mt-3 leading-relaxed text-tinta-suave">
-                    Você escolhe um participante, consulta os tamanhos e a sugestão de presente e entrega
-                    na sede do Instituto.
+                    {t("apadrinhamento.entregar.texto")}
                   </p>
                 </div>
 
                 <div className="rounded-2xl border border-linha bg-white p-7">
                   <p className="flex items-center gap-2 text-lg font-semibold">
                     <Icone nome="coracao" className="h-5 w-5 text-bordo" />
-                    Contribuir financeiramente
+                    {t("apadrinhamento.contribuir.titulo")}
                   </p>
                   <p className="mt-3 leading-relaxed text-tinta-suave">
-                    A equipe do IEAD faz as compras e monta o presente para você.
+                    {t("apadrinhamento.contribuir.texto")}
                   </p>
                   <p className="mt-4 rounded-xl bg-areia p-4 text-sm text-tinta-suave">
                     {valor
@@ -155,7 +154,10 @@ export default async function Apadrinhamento() {
             <Container>
               <div className="grid gap-10 lg:grid-cols-2">
                 <div>
-                  <TituloSecao sobretitulo="Encerramento" titulo="A festa de entrega" />
+                  <TituloSecao
+                    sobretitulo={t("apadrinhamento.encerramento.sobretitulo")}
+                    titulo={t("apadrinhamento.encerramento.titulo")}
+                  />
                   {/* O ícone fica dentro do <dt>: uma lista de definição só aceita
                       dt e dd dentro do div que os agrupa, e um div extra no meio
                       quebra a semântica para quem usa leitor de tela. */}
@@ -206,21 +208,23 @@ export default async function Apadrinhamento() {
       <Secao fundo="bordo" compacta>
         <Container>
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <TituloSecao claro sobretitulo="Proteção de dados" titulo="Como protegemos cada criança" />
+            <TituloSecao
+              claro
+              sobretitulo={t("apadrinhamento.protecao.sobretitulo")}
+              titulo={t("apadrinhamento.protecao.titulo")}
+            />
             <div className="space-y-3 text-white/85">
               <p className="flex gap-3">
                 <Icone nome="cadeado" className="mt-1 h-5 w-5 shrink-0" />
-                Participantes são identificados por código. Nome completo, endereço, escola e contatos
-                ficam em tabela separada do banco, que nenhuma página pública consulta.
+                {t("apadrinhamento.protecao.item1")}
               </p>
               <p className="flex gap-3">
                 <Icone nome="cadeado" className="mt-1 h-5 w-5 shrink-0" />
-                Fotografias só entram no ar com autorização válida dos responsáveis e da instituição.
+                {t("apadrinhamento.protecao.item2")}
               </p>
               <p className="flex gap-3">
                 <Icone nome="cadeado" className="mt-1 h-5 w-5 shrink-0" />
-                Ao reservar, o participante sai da lista na hora: duas pessoas nunca apadrinham a mesma
-                criança.
+                {t("apadrinhamento.protecao.item3")}
               </p>
             </div>
           </div>
@@ -230,9 +234,9 @@ export default async function Apadrinhamento() {
       <Secao fundo="branco" id="historico">
         <Container>
           <TituloSecao
-            sobretitulo="Histórico"
-            titulo="Todas as campanhas, guardadas"
-            texto="Cada edição tem a sua página permanente. Nenhum registro é apagado quando uma campanha termina."
+            sobretitulo={t("apadrinhamento.historico.sobretitulo")}
+            titulo={t("apadrinhamento.historico.titulo")}
+            texto={t("apadrinhamento.historico.texto")}
           />
 
           <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

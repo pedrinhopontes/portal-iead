@@ -111,6 +111,19 @@ export default async function Campanhas() {
           ))}
         </ul>
       )}
+
+      <Link
+        href="/admin/textos/apadrinhamento"
+        className="mt-12 flex items-center justify-between gap-4 rounded-2xl border border-linha bg-white px-6 py-5 hover:border-bordo"
+      >
+        <span>
+          <span className="block font-semibold">Textos da página de apadrinhamento</span>
+          <span className="text-sm text-tinta-suave">
+            Títulos e parágrafos que aparecem no site, com a página ao lado
+          </span>
+        </span>
+        <Icone nome="seta" className="h-4 w-4 shrink-0 text-tinta-suave" />
+      </Link>
     </div>
   );
 }

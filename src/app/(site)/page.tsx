@@ -22,23 +22,18 @@ import {
   listarProjetos,
 } from "@/lib/dados/conteudo";
 import { resolverFotos } from "@/lib/dados/fotos-do-site";
+import { carregarTextos } from "@/lib/dados/textos";
 import { instituto, textoQuemSomosAtual } from "@/lib/instituto";
 
 const valoresContribuicao = ["R$ 20", "R$ 50", "R$ 80", "R$ 100", "Outro valor"];
 
-const formasDeParticipar = [
-  {
-    titulo: "Entregar o presente",
-    descricao:
-      "Você escolhe um participante, consulta os tamanhos e a sugestão de presente e entrega na sede do Instituto.",
-  },
-  {
-    titulo: "Contribuir financeiramente",
-    descricao: "A equipe do IEAD faz as compras e monta o presente para você.",
-  },
-];
+const chavesDasFormas = [
+  { titulo: "apadrinhamento.entregar.titulo", descricao: "apadrinhamento.entregar.texto" },
+  { titulo: "apadrinhamento.contribuir.titulo", descricao: "apadrinhamento.contribuir.texto" },
+] as const;
 
 export default async function PaginaInicial() {
+  const t = await carregarTextos();
   const [campanha, fotosDoCarrossel, projetos, noticias, anos, indicadores, parceiros] =
     await Promise.all([
       campanhaVigente(),
@@ -68,23 +63,22 @@ export default async function PaginaInicial() {
             <Etiqueta tom="bordo">2016 — 2026 · 10 anos de história</Etiqueta>
 
             <h1 className="mt-6 max-w-2xl font-serif text-4xl font-semibold leading-[1.08] sm:text-5xl">
-              Há 10 anos semeando educação, acolhimento e transformação social.
+              {t("inicio.banner.titulo")}
             </h1>
 
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-tinta-suave">
-              O IEAD é uma organização da sociedade civil, sem fins lucrativos, que atua em Guadalupe, no Rio de
-              Janeiro, com crianças, adolescentes, jovens, mulheres e pessoas idosas.
+              {t("inicio.banner.texto")}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
               <SeArea href="/projetos">
                 <Botao href="/projetos" tamanho="lg" comSeta>
-                  Conheça nossos projetos
+                  {t("inicio.botao.projetos")}
                 </Botao>
               </SeArea>
               <SeArea href="/apadrinhamento">
                 <Botao href="/apadrinhamento" variante="contorno" tamanho="lg">
-                  Apadrinhe neste Natal
+                  {t("inicio.botao.apadrinhar")}
                 </Botao>
               </SeArea>
             </div>
@@ -118,18 +112,17 @@ export default async function PaginaInicial() {
         <Container>
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
             <TituloSecao
-              sobretitulo="Quem somos"
-              titulo="Educação que acolhe, protege e abre caminhos"
+              sobretitulo={t("inicio.quem-somos.sobretitulo")}
+              titulo={t("inicio.quem-somos.titulo")}
               texto={textoQuemSomosAtual}
             />
             <div className="flex flex-col justify-center gap-5">
-              <Aviso titulo="Texto institucional em revisão" tom="pendente">
-                Este parágrafo foi preservado do site atual com ajustes de redação. A descrição jurídica do
-                Instituto (OSC, OSCIP ou outra qualificação) precisa de revisão antes da publicação.
+              <Aviso titulo={t("inicio.quem-somos.aviso-titulo")} tom="pendente">
+                {t("inicio.quem-somos.aviso-texto")}
               </Aviso>
               <SeArea href="/quem-somos">
                 <Botao href="/quem-somos" variante="secundario" comSeta className="self-start">
-                  Conhecer o Instituto
+                  {t("inicio.botao.quem-somos")}
                 </Botao>
               </SeArea>
             </div>
@@ -139,8 +132,7 @@ export default async function PaginaInicial() {
             <h2 className="sr-only">Indicadores de impacto</h2>
             <Indicadores indicadores={indicadores} />
             <p className="mt-4 text-sm text-tinta-suave">
-              Os indicadores são editáveis pelo painel administrativo e exibem somente números conferidos pelo
-              Instituto.
+              {t("inicio.indicadores.nota")}
             </p>
           </div>
         </Container>
@@ -152,12 +144,12 @@ export default async function PaginaInicial() {
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <TituloSecao
-              sobretitulo="Nossos projetos"
-              titulo="Cada fase da vida tem um lugar aqui"
-              texto="Do primeiro contato com a escola ao ingresso na universidade, e também com as mulheres e as pessoas idosas da comunidade."
+              sobretitulo={t("inicio.projetos.sobretitulo")}
+              titulo={t("inicio.projetos.titulo")}
+              texto={t("inicio.projetos.texto")}
             />
             <Botao href="/projetos" variante="contorno" comSeta>
-              Ver todos os projetos
+              {t("inicio.botao.todos-projetos")}
             </Botao>
           </div>
 
@@ -178,35 +170,36 @@ export default async function PaginaInicial() {
             <div>
               <TituloSecao
                 claro
-                sobretitulo={campanha ? "Campanha vigente" : "Apadrinhamento de Natal"}
-                titulo={campanha?.titulo ?? "Apadrinhe uma criança neste Natal"}
-                texto={
-                  campanha?.vinculo ??
-                  "Todos os anos desde 2018, o Instituto conecta quem quer ajudar a uma criança ou adolescente atendido pelos projetos."
+                sobretitulo={
+                  campanha
+                    ? t("inicio.apadrinhamento.sobretitulo-vigente")
+                    : t("inicio.apadrinhamento.sobretitulo-fechada")
                 }
+                titulo={campanha?.titulo ?? t("inicio.apadrinhamento.titulo")}
+                texto={campanha?.vinculo ?? t("inicio.apadrinhamento.texto")}
               />
 
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                {formasDeParticipar.map((forma) => (
+                {chavesDasFormas.map((forma) => (
                   <div key={forma.titulo} className="rounded-2xl bg-white/10 p-5 ring-1 ring-inset ring-white/20">
                     <p className="flex items-center gap-2 font-semibold text-white">
                       <Icone nome="presente" className="h-5 w-5" />
-                      {forma.titulo}
+                      {t(forma.titulo)}
                     </p>
-                    <p className="mt-2 text-sm leading-relaxed text-white/80">{forma.descricao}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-white/80">{t(forma.descricao)}</p>
                   </div>
                 ))}
               </div>
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <Botao href="/apadrinhamento" variante="claro" tamanho="lg" comSeta>
-                  Quero apadrinhar
+                  {t("inicio.botao.quero-apadrinhar")}
                 </Botao>
                 <Link
                   href="/apadrinhamento#historico"
                   className="inline-flex items-center gap-2 rounded-full border-2 border-white/40 px-7 py-3.5 text-base font-semibold text-white transition-colors hover:border-white"
                 >
-                  Ver campanhas anteriores
+                  {t("inicio.botao.campanhas-anteriores")}
                 </Link>
               </div>
             </div>
@@ -214,17 +207,13 @@ export default async function PaginaInicial() {
             <div className="rounded-2xl bg-white/10 p-6 ring-1 ring-inset ring-white/20">
               <p className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-white">
                 <Icone nome="cadeado" className="h-5 w-5" />
-                Proteção das crianças
+                {t("inicio.protecao.titulo")}
               </p>
               <p className="mt-3 text-sm leading-relaxed text-white/85">
-                No apadrinhamento, cada criança aparece com o primeiro nome, a idade, os tamanhos e o que
-                gostaria de ganhar — o necessário para escolher o presente certo. Sobrenome, endereço, escola
-                e contatos nunca são publicados. As fotografias só vão ao ar com o termo de autorização
-                assinado pelo responsável, e o sistema recusa o cadastro sem esse registro.
+                {t("inicio.protecao.texto1")}
               </p>
               <p className="mt-4 text-sm leading-relaxed text-white/85">
-                A reserva de um participante é exclusiva: assim que alguém reserva, ninguém mais consegue
-                escolher a mesma criança.
+                {t("inicio.protecao.texto2")}
               </p>
             </div>
           </div>
@@ -238,9 +227,9 @@ export default async function PaginaInicial() {
         <Container>
           <TituloSecao
             centralizado
-            sobretitulo="Nossa história"
-            titulo="Uma década construída ano a ano"
-            texto="A linha do tempo do IEAD fica permanentemente no portal. A cada ano, um novo capítulo é acrescentado pelo painel administrativo."
+            sobretitulo={t("inicio.historia.sobretitulo")}
+            titulo={t("inicio.historia.titulo")}
+            texto={t("inicio.historia.texto")}
           />
 
           <ol className="mt-12 flex flex-wrap justify-center gap-3">
@@ -265,10 +254,10 @@ export default async function PaginaInicial() {
 
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <Botao href="/nossa-historia" tamanho="lg" comSeta>
-              Percorrer a linha do tempo
+              {t("inicio.botao.linha-do-tempo")}
             </Botao>
             <Botao href="/nossa-historia/10-anos" variante="contorno" tamanho="lg">
-              Comemoração dos 10 anos
+              {t("inicio.botao.dez-anos")}
             </Botao>
           </div>
         </Container>
@@ -282,9 +271,9 @@ export default async function PaginaInicial() {
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
               <TituloSecao
-                sobretitulo="Seja um filiado"
-                titulo="Faça parte de quem transforma vidas"
-                texto="A contribuição mensal é o que permite ao Instituto planejar o ano inteiro: manter as turmas, o material e a equipe que acompanha cada criança."
+                sobretitulo={t("inicio.filiacao.sobretitulo")}
+                titulo={t("inicio.filiacao.titulo")}
+                texto={t("inicio.filiacao.texto")}
               />
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -300,23 +289,20 @@ export default async function PaginaInicial() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <Botao href="/seja-filiado" variante="secundario" tamanho="lg" comSeta>
-                  Quero contribuir todo mês
+                  {t("inicio.botao.contribuir")}
                 </Botao>
                 <Botao href="/apoie" variante="contorno" tamanho="lg">
-                  Fazer uma doação única
+                  {t("inicio.botao.doacao-unica")}
                 </Botao>
               </div>
             </div>
 
-            <Aviso titulo="Pagamentos ainda não estão ativos neste protótipo" tom="demonstracao">
+            <Aviso titulo={t("inicio.pagamentos.aviso-titulo")} tom="demonstracao">
               <p>
-                Os valores acima mostram como a escolha será apresentada. Nenhuma cobrança é processada e
-                nenhum pagamento é simulado como se fosse real.
+                {t("inicio.pagamentos.aviso-texto1")}
               </p>
               <p className="mt-3">
-                A primeira fase vai operar por PIX direto na conta do Instituto, sem taxa por transação, com
-                conferência no painel administrativo. A recorrência automática entra depois, quando a conta e as
-                credenciais estiverem definidas.
+                {t("inicio.pagamentos.aviso-texto2")}
               </p>
             </Aviso>
           </div>
@@ -330,12 +316,12 @@ export default async function PaginaInicial() {
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-6">
             <TituloSecao
-              sobretitulo="Notícias e eventos"
-              titulo="O que está acontecendo no Instituto"
-              texto="Atividades dos projetos, campanhas, conquistas e comunicados."
+              sobretitulo={t("inicio.noticias.sobretitulo")}
+              titulo={t("inicio.noticias.titulo")}
+              texto={t("inicio.noticias.texto")}
             />
             <Botao href="/noticias" variante="contorno" comSeta>
-              Ver todas as notícias
+              {t("inicio.botao.noticias")}
             </Botao>
           </div>
 
@@ -352,12 +338,14 @@ export default async function PaginaInicial() {
       <Secao fundo="verde" compacta>
         <Container>
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-            <TituloSecao claro sobretitulo="Depoimentos" titulo="Quem vive o Instituto por dentro" />
+            <TituloSecao
+              claro
+              sobretitulo={t("inicio.depoimentos.sobretitulo")}
+              titulo={t("inicio.depoimentos.titulo")}
+            />
             <div className="rounded-2xl border border-dashed border-white/40 bg-white/10 p-8">
               <p className="text-white/90">
-                Esta área receberá depoimentos de famílias, participantes, educadores e parceiros —
-                <strong className="font-semibold"> apenas os autorizados por escrito</strong>. Nenhum depoimento
-                foi escrito por nós: eles serão cadastrados pelo painel com nome, vínculo e autorização.
+                {t("inicio.depoimentos.texto")}
               </p>
             </div>
           </div>
@@ -369,9 +357,9 @@ export default async function PaginaInicial() {
         <Container>
           <TituloSecao
             centralizado
-            sobretitulo="Nossos momentos"
-            titulo="A rotina do Instituto em imagens"
-            texto="A galeria é alimentada pelo painel administrativo, com as fotografias autorizadas de cada projeto."
+            sobretitulo={t("inicio.galeria.sobretitulo")}
+            titulo={t("inicio.galeria.titulo")}
+            texto={t("inicio.galeria.texto")}
           />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
@@ -393,8 +381,8 @@ export default async function PaginaInicial() {
         <Container>
           <TituloSecao
             centralizado
-            sobretitulo="Parceiros e apoiadores"
-            titulo="Redes das quais o IEAD faz parte"
+            sobretitulo={t("inicio.parceiros.sobretitulo")}
+            titulo={t("inicio.parceiros.titulo")}
           />
           <ul className="mt-10 flex flex-wrap justify-center gap-3">
             {parceiros.map((parceiro) => (
@@ -410,8 +398,7 @@ export default async function PaginaInicial() {
             ))}
           </ul>
           <p className="mt-8 text-center text-sm text-tinta-suave">
-            As logomarcas dos parceiros entram no lugar dos nomes assim que o Instituto enviar os arquivos e
-            confirmar as autorizações de uso.
+            {t("inicio.parceiros.nota")}
           </p>
         </Container>
       </Secao>
@@ -426,18 +413,17 @@ export default async function PaginaInicial() {
             <div className="max-w-2xl">
               <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-white/75">
                 <Icone nome="grafico" className="h-4 w-4" />
-                Portal da Transparência
+                {t("inicio.transparencia.rotulo")}
               </p>
               <h2 className="mt-3 text-3xl font-semibold text-white">
-                Quem apoia tem o direito de saber para onde o recurso vai
+                {t("inicio.transparencia.titulo")}
               </h2>
               <p className="mt-4 text-white/80">
-                Documentos institucionais, prestação de contas, receitas, aplicação dos recursos, parcerias e
-                relatórios de impacto — com filtro por ano e data da última atualização.
+                {t("inicio.transparencia.texto")}
               </p>
             </div>
             <Botao href="/transparencia" variante="claro" tamanho="lg" comSeta>
-              Acessar a transparência
+              {t("inicio.botao.transparencia")}
             </Botao>
           </div>
         </Container>

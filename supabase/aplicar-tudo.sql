@@ -1587,3 +1587,149 @@ insert into public.site_settings (chave, valor, descricao) values
   ('areas_ocultas', '{"ocultas": []}'::jsonb,
    'Endereços das áreas que não aparecem no menu, no rodapé, no mapa do site nem na página inicial. A página em si continua respondendo.')
 on conflict (chave) do nothing;
+
+-- =============================================================================
+-- >>>>>>>>>>>>>>>>>>>> 0013_galeria_e_video_na_noticia.sql <<<<<<<<<<<<<<<<<<<<
+-- =============================================================================
+
+-- =============================================================================
+-- 0013 — Galeria e vídeo na notícia
+--
+-- POR QUE EXISTE: para pôr uma foto numa notícia, era preciso salvar a
+-- notícia, sair para a tela de Fotos, enviar a imagem, lembrar o endereço da
+-- notícia e ligar os dois à mão. Quem escreve uma notícia quer escrever a
+-- notícia — não administrar um acervo de imagens no meio do caminho.
+--
+-- Agora a notícia tem capa, galeria e vídeo, tudo preenchido no mesmo
+-- formulário.
+-- =============================================================================
+
+-- -----------------------------------------------------------------------------
+-- Vídeo: link, não arquivo
+--
+-- Guardar vídeo no armazenamento do Supabase acabaria com o plano gratuito
+-- (1 GB) em dois ou três arquivos de celular, e cada exibição gastaria banda
+-- do Instituto. O IEAD já publica no YouTube e no Instagram, que hospedam de
+-- graça e entregam rápido. Aqui fica só o endereço.
+-- -----------------------------------------------------------------------------
+alter table public.noticias
+  add column if not exists video_url text;
+
+comment on column public.noticias.video_url is
+  'Endereço do vídeo no YouTube, Instagram ou Facebook. O arquivo não é hospedado aqui.';
+
+-- -----------------------------------------------------------------------------
+-- Galeria da notícia
+--
+-- Tabela de ligação em vez de reaproveitar `midia_slots`: a galeria tem ORDEM,
+-- e slot é um nome fixo por lugar. Com ordem explícita, o Instituto decide a
+-- sequência do carrossel.
+-- -----------------------------------------------------------------------------
+create table if not exists public.noticia_midias (
+  noticia_id uuid not null references public.noticias (id) on delete cascade,
+  midia_id   uuid not null references public.midias (id)   on delete cascade,
+  ordem      int  not null default 0,
+
+  primary key (noticia_id, midia_id)
+);
+
+create index if not exists noticia_midias_ordem_idx
+  on public.noticia_midias (noticia_id, ordem);
+
+alter table public.noticia_midias enable row level security;
+
+-- Leitura pública apenas do que pertence a notícia publicada: galeria de
+-- rascunho não vaza pela API antes de a notícia ir ao ar.
+drop policy if exists "noticia_midias_leitura_publica" on public.noticia_midias;
+create policy "noticia_midias_leitura_publica"
+  on public.noticia_midias for select to anon, authenticated
+  using (
+    exists (
+      select 1 from public.noticias n
+       where n.id = noticia_midias.noticia_id
+         and n.publicado
+    )
+  );
+
+drop policy if exists "noticia_midias_escrita_comunicacao" on public.noticia_midias;
+create policy "noticia_midias_escrita_comunicacao"
+  on public.noticia_midias for all to authenticated
+  using (public.tem_perfil('admin', 'comunicacao'))
+  with check (public.tem_perfil('admin', 'comunicacao'));
+
+drop trigger if exists noticia_midias_auditoria on public.noticia_midias;
+create trigger noticia_midias_auditoria
+  after insert or update or delete on public.noticia_midias
+  for each row execute function public.registrar_auditoria();
+
+-- -----------------------------------------------------------------------------
+-- Conferência
+-- -----------------------------------------------------------------------------
+select
+  (select count(*) from information_schema.columns
+    where table_name = 'noticias' and column_name = 'video_url')  as tem_video_url,
+  (select count(*) from information_schema.tables
+    where table_name = 'noticia_midias')                          as tem_tabela_galeria,
+  (select count(*) from pg_policies
+    where tablename = 'noticia_midias')                           as politicas;
+
+-- =============================================================================
+-- >>>>>>>>>>>>>>>>>>>> 0014_textos_do_site.sql <<<<<<<<<<<<<<<<<<<<
+-- =============================================================================
+
+-- =============================================================================
+-- 0014 — Textos do site
+--
+-- POR QUE EXISTE: havia 91 textos escritos direto no código, espalhados por 11
+-- páginas. Trocar qualquer um deles era um pedido ao programador — o contrário
+-- do que este portal deveria ser.
+--
+-- COMO FUNCIONA: cada texto tem uma chave (`apadrinhamento.o-que-e.titulo`) e
+-- um valor PADRÃO que continua no código, em src/content/textos.ts. Esta tabela
+-- guarda apenas o que o Instituto decidiu mudar.
+--
+-- A consequência dessa escolha é o que importa: a tabela nasce vazia e o site
+-- fica exatamente como está. Nada precisa ser migrado de uma vez, nenhuma
+-- página quebra se a linha não existir, e apagar uma linha aqui devolve o texto
+-- original. O banco guarda a diferença, não o conteúdo inteiro.
+-- =============================================================================
+
+create table if not exists public.textos_site (
+  chave         text primary key,
+  valor         text not null,
+  atualizado_em timestamptz not null default now()
+);
+
+comment on table public.textos_site is
+  'Textos do site que o Instituto alterou. O padrão de cada chave vive no código, em src/content/textos.ts.';
+
+drop trigger if exists textos_site_atualizado_em on public.textos_site;
+create trigger textos_site_atualizado_em
+  before update on public.textos_site
+  for each row execute function public.tocar_atualizado_em();
+
+alter table public.textos_site enable row level security;
+
+-- Leitura pública: é o conteúdo das páginas públicas.
+drop policy if exists "textos_site_leitura_publica" on public.textos_site;
+create policy "textos_site_leitura_publica"
+  on public.textos_site for select to anon, authenticated using (true);
+
+drop policy if exists "textos_site_escrita_comunicacao" on public.textos_site;
+create policy "textos_site_escrita_comunicacao"
+  on public.textos_site for all to authenticated
+  using (public.tem_perfil('admin', 'comunicacao'))
+  with check (public.tem_perfil('admin', 'comunicacao'));
+
+drop trigger if exists textos_site_auditoria on public.textos_site;
+create trigger textos_site_auditoria
+  after insert or update or delete on public.textos_site
+  for each row execute function public.registrar_auditoria();
+
+-- -----------------------------------------------------------------------------
+-- Conferência
+-- -----------------------------------------------------------------------------
+select
+  (select count(*) from information_schema.tables where table_name = 'textos_site') as tabela,
+  (select count(*) from pg_policies where tablename = 'textos_site')                as politicas,
+  (select count(*) from public.textos_site)                                         as textos_alterados;
