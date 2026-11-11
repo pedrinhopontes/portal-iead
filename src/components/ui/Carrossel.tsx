@@ -113,6 +113,12 @@ export function Carrossel({
 
       {total > 1 && (
         <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 bg-gradient-to-t from-tinta/75 to-transparent px-4 pb-4 pt-12">
+          {/*
+            O botão tem 24x24 e é transparente; o pontinho visível fica dentro.
+            O WCAG 2.2 (critério 2.5.8) exige alvo de toque de pelo menos
+            24x24 px, e um ponto de 10px reprova — quem tem pouca firmeza na
+            mão, ou usa o site no celular, erra o alvo. A aparência não muda.
+          */}
           <div className="flex gap-2">
             {fotos.map((foto, i) => (
               <button
@@ -124,10 +130,14 @@ export function Carrossel({
                 }}
                 aria-label={`Ir para a fotografia ${i + 1} de ${total}`}
                 aria-current={i === indice ? "true" : undefined}
-                className={`h-2.5 rounded-full transition-all ${
-                  i === indice ? "w-7 bg-white" : "w-2.5 bg-white/55 hover:bg-white/85"
-                }`}
-              />
+                className="flex h-6 min-w-6 items-center justify-center"
+              >
+                <span
+                  className={`block h-2.5 rounded-full transition-all ${
+                    i === indice ? "w-7 bg-white" : "w-2.5 bg-white/55 hover:bg-white/85"
+                  }`}
+                />
+              </button>
             ))}
           </div>
 
