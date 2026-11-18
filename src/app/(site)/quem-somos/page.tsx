@@ -45,7 +45,7 @@ export default async function QuemSomos() {
           <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <div className="space-y-5 text-lg leading-relaxed text-tinta-suave">
               <p>{textoQuemSomosAtual}</p>
-              <p>
+              <p className="whitespace-pre-line">
                 {t("quem-somos.intro.paragrafo")}
               </p>
               <Aviso titulo={t("quem-somos.aviso-revisao.titulo")} tom="pendente">
@@ -124,7 +124,7 @@ export default async function QuemSomos() {
               texto={t("quem-somos.atuacao.texto")}
             />
             <div className="rounded-2xl border border-dashed border-white/40 bg-white/10 p-8 text-white/90">
-              <p>
+              <p className="whitespace-pre-line">
                 {t("quem-somos.atuacao.paragrafo")}
               </p>
               <p className="mt-4 text-sm text-white/90 whitespace-pre-line">
@@ -151,7 +151,7 @@ export default async function QuemSomos() {
                   <Icone nome="pessoas" className="h-5 w-5 text-verde-escuro" />
                   {t(bloco.titulo)}
                 </p>
-                <p className="mt-2 text-sm leading-relaxed text-tinta-suave">{t(bloco.descricao)}</p>
+                <p className="mt-2 text-sm leading-relaxed text-tinta-suave whitespace-pre-line">{t(bloco.descricao)}</p>
                 <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-amber-700 whitespace-pre-line">
                   {t("quem-somos.governanca.aguardando")}
                 </p>

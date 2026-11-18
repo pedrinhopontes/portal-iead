@@ -100,7 +100,7 @@ export default async function Contato() {
 
                 <label className="flex items-start gap-3 text-sm text-tinta-suave">
                   <input type="checkbox" name="consentimento" className="mt-1 h-4 w-4" />
-                  {t("contato.consentimento")}
+                  <span className="whitespace-pre-line">{t("contato.consentimento")}</span>
                 </label>
 
                 <button

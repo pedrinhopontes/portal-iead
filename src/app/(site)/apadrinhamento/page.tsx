@@ -216,15 +216,15 @@ export default async function Apadrinhamento() {
             <div className="space-y-3 text-white/85">
               <p className="flex gap-3">
                 <Icone nome="cadeado" className="mt-1 h-5 w-5 shrink-0" />
-                {t("apadrinhamento.protecao.item1")}
+                <span className="whitespace-pre-line">{t("apadrinhamento.protecao.item1")}</span>
               </p>
               <p className="flex gap-3">
                 <Icone nome="cadeado" className="mt-1 h-5 w-5 shrink-0" />
-                {t("apadrinhamento.protecao.item2")}
+                <span className="whitespace-pre-line">{t("apadrinhamento.protecao.item2")}</span>
               </p>
               <p className="flex gap-3">
                 <Icone nome="cadeado" className="mt-1 h-5 w-5 shrink-0" />
-                {t("apadrinhamento.protecao.item3")}
+                <span className="whitespace-pre-line">{t("apadrinhamento.protecao.item3")}</span>
               </p>
             </div>
           </div>

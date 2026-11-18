@@ -62,7 +62,7 @@ export default async function PaginaInicial() {
           <div>
             <Etiqueta tom="bordo">2016 — 2026 · 10 anos de história</Etiqueta>
 
-            <h1 className="mt-6 max-w-2xl font-serif text-4xl font-semibold leading-[1.08] sm:text-5xl">
+            <h1 className="mt-6 max-w-2xl whitespace-pre-line font-serif text-4xl font-semibold leading-[1.08] sm:text-5xl">
               {t("inicio.banner.titulo")}
             </h1>
 
@@ -298,7 +298,7 @@ export default async function PaginaInicial() {
             </div>
 
             <Aviso titulo={t("inicio.pagamentos.aviso-titulo")} tom="demonstracao">
-              <p>
+              <p className="whitespace-pre-line">
                 {t("inicio.pagamentos.aviso-texto1")}
               </p>
               <p className="mt-3 whitespace-pre-line">
@@ -415,7 +415,7 @@ export default async function PaginaInicial() {
                 <Icone nome="grafico" className="h-4 w-4" />
                 {t("inicio.transparencia.rotulo")}
               </p>
-              <h2 className="mt-3 text-3xl font-semibold text-white">
+              <h2 className="mt-3 whitespace-pre-line text-3xl font-semibold text-white">
                 {t("inicio.transparencia.titulo")}
               </h2>
               <p className="mt-4 text-white/80 whitespace-pre-line">

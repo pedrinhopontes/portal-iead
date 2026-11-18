@@ -75,7 +75,7 @@ export default async function Apoie() {
                   <Icone nome={caminho.icone} className="h-6 w-6" />
                 </span>
                 <h2 className="mt-5 text-xl font-semibold">{t(caminho.titulo)}</h2>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-tinta-suave">{t(caminho.texto)}</p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-tinta-suave whitespace-pre-line">{t(caminho.texto)}</p>
                 <Link
                   href={caminho.href}
                   className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-bordo hover:text-bordo-escuro"
@@ -115,7 +115,7 @@ export default async function Apoie() {
                     <p className="mt-2 break-all font-mono text-lg font-semibold text-verde-escuro">
                       {config.chave}
                     </p>
-                    <p className="mt-2 text-sm text-tinta-suave">
+                    <p className="mt-2 text-sm text-tinta-suave whitespace-pre-line">
                       Em nome de <strong className="font-semibold text-tinta">{config.nome}</strong>.
                       {t("apoie.pix.confira")}
                     </p>

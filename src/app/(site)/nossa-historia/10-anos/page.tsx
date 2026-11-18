@@ -49,7 +49,7 @@ export default async function DezAnos() {
           <Etiqueta tom="neutro" className="bg-white/15 text-white ring-white/30">
             7 de novembro de 2026
           </Etiqueta>
-          <h1 className="mt-6 max-w-4xl font-serif text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
+          <h1 className="mt-6 max-w-4xl whitespace-pre-line font-serif text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
             {t("dez-anos.capa.titulo")}
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-white/85 whitespace-pre-line">
