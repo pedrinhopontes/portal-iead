@@ -97,7 +97,7 @@ export default async function Apoie() {
                 sobretitulo={t("apoie.pix.sobretitulo")}
                 titulo={t("apoie.pix.titulo")}
               />
-              <p className="mt-5 leading-relaxed text-tinta-suave">
+              <p className="mt-5 leading-relaxed text-tinta-suave whitespace-pre-line">
                 {t("apoie.pix.texto")}
               </p>
 
@@ -137,7 +137,7 @@ export default async function Apoie() {
                     <p className="mt-2 font-mono text-lg font-semibold text-tinta-suave">
                       aguardando confirmação
                     </p>
-                    <p className="mt-3 text-sm text-tinta-suave">
+                    <p className="mt-3 text-sm text-tinta-suave whitespace-pre-line">
                       {t("apoie.pix.sem-chave")}
                     </p>
                   </>

@@ -158,7 +158,7 @@ export default async function Contato() {
               <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-verde/40 bg-verde-suave/40 p-6 text-center">
                 <Icone nome="local" className="h-7 w-7 text-verde-escuro/70" />
                 <p className="text-sm font-semibold text-verde-escuro">Mapa da sede</p>
-                <p className="max-w-xs text-xs text-tinta-suave">
+                <p className="max-w-xs text-xs text-tinta-suave whitespace-pre-line">
                   {t("contato.mapa.nota")}
                 </p>
               </div>

@@ -138,7 +138,7 @@ export default async function PaginaProjeto({ params }: Props) {
           <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
             <div className="max-w-xl">
               <h2 className="text-2xl font-semibold text-white">Como colaborar com o {projeto.nome}</h2>
-              <p className="mt-3 text-white/85">
+              <p className="mt-3 text-white/85 whitespace-pre-line">
                 {t("projeto.apoio.texto")}
               </p>
             </div>

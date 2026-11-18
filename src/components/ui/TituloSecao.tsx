@@ -35,7 +35,19 @@ export function TituloSecao({
       )}
       <Tag className={`${tamanho} font-semibold ${claro ? "text-white" : ""}`}>{titulo}</Tag>
       {texto && (
-        <p className={`mt-4 text-lg leading-relaxed ${claro ? "text-white/85" : "text-tinta-suave"}`}>{texto}</p>
+        /*
+          `whitespace-pre-line` porque este texto pode vir do painel, onde o
+          Instituto escreve em vários parágrafos. Sem isso o HTML junta tudo
+          num bloco só, e quem escreveu não entende por que o site ignorou as
+          quebras de linha.
+        */
+        <p
+          className={`mt-4 whitespace-pre-line text-lg leading-relaxed ${
+            claro ? "text-white/85" : "text-tinta-suave"
+          }`}
+        >
+          {texto}
+        </p>
       )}
     </div>
   );

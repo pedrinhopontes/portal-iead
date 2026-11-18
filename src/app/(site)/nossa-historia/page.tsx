@@ -154,7 +154,7 @@ export default async function NossaHistoria() {
           <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
             <div className="max-w-2xl">
               <h2 className="text-2xl font-semibold">Tem registros destes anos?</h2>
-              <p className="mt-3 text-tinta-suave">
+              <p className="mt-3 text-tinta-suave whitespace-pre-line">
                 {t("historia.acervo.texto")}
               </p>
             </div>

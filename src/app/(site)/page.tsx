@@ -66,7 +66,7 @@ export default async function PaginaInicial() {
               {t("inicio.banner.titulo")}
             </h1>
 
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-tinta-suave">
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-tinta-suave whitespace-pre-line">
               {t("inicio.banner.texto")}
             </p>
 
@@ -131,7 +131,7 @@ export default async function PaginaInicial() {
           <div className="mt-14">
             <h2 className="sr-only">Indicadores de impacto</h2>
             <Indicadores indicadores={indicadores} />
-            <p className="mt-4 text-sm text-tinta-suave">
+            <p className="mt-4 text-sm text-tinta-suave whitespace-pre-line">
               {t("inicio.indicadores.nota")}
             </p>
           </div>
@@ -209,10 +209,10 @@ export default async function PaginaInicial() {
                 <Icone nome="cadeado" className="h-5 w-5" />
                 {t("inicio.protecao.titulo")}
               </p>
-              <p className="mt-3 text-sm leading-relaxed text-white/85">
+              <p className="mt-3 text-sm leading-relaxed text-white/85 whitespace-pre-line">
                 {t("inicio.protecao.texto1")}
               </p>
-              <p className="mt-4 text-sm leading-relaxed text-white/85">
+              <p className="mt-4 text-sm leading-relaxed text-white/85 whitespace-pre-line">
                 {t("inicio.protecao.texto2")}
               </p>
             </div>
@@ -301,7 +301,7 @@ export default async function PaginaInicial() {
               <p>
                 {t("inicio.pagamentos.aviso-texto1")}
               </p>
-              <p className="mt-3">
+              <p className="mt-3 whitespace-pre-line">
                 {t("inicio.pagamentos.aviso-texto2")}
               </p>
             </Aviso>
@@ -344,7 +344,7 @@ export default async function PaginaInicial() {
               titulo={t("inicio.depoimentos.titulo")}
             />
             <div className="rounded-2xl border border-dashed border-white/40 bg-white/10 p-8">
-              <p className="text-white/90">
+              <p className="text-white/90 whitespace-pre-line">
                 {t("inicio.depoimentos.texto")}
               </p>
             </div>
@@ -397,7 +397,7 @@ export default async function PaginaInicial() {
               </li>
             ))}
           </ul>
-          <p className="mt-8 text-center text-sm text-tinta-suave">
+          <p className="mt-8 text-center text-sm text-tinta-suave whitespace-pre-line">
             {t("inicio.parceiros.nota")}
           </p>
         </Container>
@@ -418,7 +418,7 @@ export default async function PaginaInicial() {
               <h2 className="mt-3 text-3xl font-semibold text-white">
                 {t("inicio.transparencia.titulo")}
               </h2>
-              <p className="mt-4 text-white/80">
+              <p className="mt-4 text-white/80 whitespace-pre-line">
                 {t("inicio.transparencia.texto")}
               </p>
             </div>

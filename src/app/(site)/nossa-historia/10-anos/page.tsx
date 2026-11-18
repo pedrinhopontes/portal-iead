@@ -52,7 +52,7 @@ export default async function DezAnos() {
           <h1 className="mt-6 max-w-4xl font-serif text-4xl font-semibold leading-[1.1] sm:text-5xl lg:text-6xl">
             {t("dez-anos.capa.titulo")}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg text-white/85">
+          <p className="mt-6 max-w-2xl text-lg text-white/85 whitespace-pre-line">
             {t("dez-anos.capa.texto")}
           </p>
           <p className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-white/75">

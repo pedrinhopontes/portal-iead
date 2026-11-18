@@ -58,10 +58,10 @@ export default async function SejaFiliado() {
                   <Icone nome="coracao" className="h-5 w-5 text-verde-escuro" />
                   Por que PIX, e não cartão
                 </p>
-                <p className="mt-3 text-sm leading-relaxed text-tinta-suave">
+                <p className="mt-3 text-sm leading-relaxed text-tinta-suave whitespace-pre-line">
                   {t("filiado.pix.vantagem")}
                 </p>
-                <p className="mt-3 text-sm leading-relaxed text-tinta-suave">
+                <p className="mt-3 text-sm leading-relaxed text-tinta-suave whitespace-pre-line">
                   {t("filiado.pix.contrapartida")}
                 </p>
               </div>

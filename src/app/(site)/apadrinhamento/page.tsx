@@ -87,7 +87,7 @@ export default async function Apadrinhamento() {
                 titulo={t("apadrinhamento.o-que-e.titulo")}
                 texto={campanha?.descricao ?? t("apadrinhamento.o-que-e.texto")}
               />
-              <p className="mt-6 leading-relaxed text-tinta-suave">
+              <p className="mt-6 leading-relaxed text-tinta-suave whitespace-pre-line">
                 {t("apadrinhamento.o-que-e.paragrafo")}
               </p>
             </div>
@@ -127,7 +127,7 @@ export default async function Apadrinhamento() {
                     <Icone nome="presente" className="h-5 w-5 text-bordo" />
                     {t("apadrinhamento.entregar.titulo")}
                   </p>
-                  <p className="mt-3 leading-relaxed text-tinta-suave">
+                  <p className="mt-3 leading-relaxed text-tinta-suave whitespace-pre-line">
                     {t("apadrinhamento.entregar.texto")}
                   </p>
                 </div>
@@ -137,7 +137,7 @@ export default async function Apadrinhamento() {
                     <Icone nome="coracao" className="h-5 w-5 text-bordo" />
                     {t("apadrinhamento.contribuir.titulo")}
                   </p>
-                  <p className="mt-3 leading-relaxed text-tinta-suave">
+                  <p className="mt-3 leading-relaxed text-tinta-suave whitespace-pre-line">
                     {t("apadrinhamento.contribuir.texto")}
                   </p>
                   <p className="mt-4 rounded-xl bg-areia p-4 text-sm text-tinta-suave">

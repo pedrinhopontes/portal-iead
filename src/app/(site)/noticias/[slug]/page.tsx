@@ -101,7 +101,7 @@ export default async function PaginaNoticia({ params }: Props) {
 
           <div className="mt-12 rounded-2xl border border-linha bg-areia p-6">
             <p className="font-semibold">Compartilhe esta notícia</p>
-            <p className="mt-1 text-sm text-tinta-suave">
+            <p className="mt-1 text-sm text-tinta-suave whitespace-pre-line">
               {t("noticia.compartilhar.texto")}
             </p>
             <code className="mt-3 block overflow-x-auto rounded-lg bg-white px-4 py-2.5 text-sm text-tinta-suave">

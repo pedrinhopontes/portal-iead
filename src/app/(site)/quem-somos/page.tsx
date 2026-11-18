@@ -76,25 +76,25 @@ export default async function QuemSomos() {
 
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             <div className="rounded-2xl border border-linha bg-white p-7">
-              <p className="text-xs font-bold uppercase tracking-widest text-verde-escuro">
+              <p className="text-xs font-bold uppercase tracking-widest text-verde-escuro whitespace-pre-line">
                 {t("quem-somos.missao.rotulo")}
               </p>
-              <p className="mt-3 leading-relaxed text-tinta-suave">
+              <p className="mt-3 leading-relaxed text-tinta-suave whitespace-pre-line">
                 {t("quem-somos.missao.conteudo")}
               </p>
             </div>
 
             <div className="rounded-2xl border border-dashed border-tinta/25 bg-transparent p-7">
-              <p className="text-xs font-bold uppercase tracking-widest text-tinta-suave">
+              <p className="text-xs font-bold uppercase tracking-widest text-tinta-suave whitespace-pre-line">
                 {t("quem-somos.visao.rotulo")}
               </p>
-              <p className="mt-3 leading-relaxed text-tinta-suave">
+              <p className="mt-3 leading-relaxed text-tinta-suave whitespace-pre-line">
                 {t("quem-somos.visao.conteudo")}
               </p>
             </div>
 
             <div className="rounded-2xl border border-linha bg-white p-7">
-              <p className="text-xs font-bold uppercase tracking-widest text-verde-escuro">
+              <p className="text-xs font-bold uppercase tracking-widest text-verde-escuro whitespace-pre-line">
                 {t("quem-somos.valores.rotulo")}
               </p>
               <ul className="mt-3 space-y-2">
@@ -105,7 +105,7 @@ export default async function QuemSomos() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-4 text-xs text-tinta-suave">
+              <p className="mt-4 text-xs text-tinta-suave whitespace-pre-line">
                 {t("quem-somos.valores.nota")}
               </p>
             </div>
@@ -127,7 +127,7 @@ export default async function QuemSomos() {
               <p>
                 {t("quem-somos.atuacao.paragrafo")}
               </p>
-              <p className="mt-4 text-sm text-white/90">
+              <p className="mt-4 text-sm text-white/90 whitespace-pre-line">
                 {t("quem-somos.atuacao.nota")}
               </p>
             </div>
@@ -152,7 +152,7 @@ export default async function QuemSomos() {
                   {t(bloco.titulo)}
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-tinta-suave">{t(bloco.descricao)}</p>
-                <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-amber-700">
+                <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-amber-700 whitespace-pre-line">
                   {t("quem-somos.governanca.aguardando")}
                 </p>
               </div>
@@ -161,7 +161,7 @@ export default async function QuemSomos() {
 
           <div className="mt-10 rounded-2xl border border-linha bg-areia p-7">
             <h3 className="text-lg font-semibold">{t("quem-somos.documentos.titulo")}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-tinta-suave">
+            <p className="mt-2 text-sm leading-relaxed text-tinta-suave whitespace-pre-line">
               {t("quem-somos.documentos.texto")}
             </p>
             <SeArea href="/transparencia">

@@ -33,7 +33,15 @@ export function Aviso({
         <Icone nome={estilo.icone} className="h-5 w-5 shrink-0" />
         {titulo}
       </p>
-      {children && <div className="mt-2 text-sm leading-relaxed text-tinta-suave">{children}</div>}
+      {/*
+        `whitespace-pre-line`: o conteúdo pode vir do painel, escrito em vários
+        parágrafos. Sem isso o HTML junta tudo numa linha só.
+      */}
+      {children && (
+        <div className="mt-2 whitespace-pre-line text-sm leading-relaxed text-tinta-suave">
+          {children}
+        </div>
+      )}
     </div>
   );
 }

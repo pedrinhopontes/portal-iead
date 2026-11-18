@@ -84,7 +84,7 @@ export default async function Apadrinhar({ params }: Props) {
                 </div>
               </dl>
 
-              <p className="mt-6 text-xs leading-relaxed text-tinta-suave">
+              <p className="mt-6 text-xs leading-relaxed text-tinta-suave whitespace-pre-line">
                 {t("apadrinhar.protecao.texto")}
               </p>
             </div>

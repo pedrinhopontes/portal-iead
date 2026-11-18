@@ -150,7 +150,7 @@ export default async function Transparencia({ searchParams }: Props) {
               {t("transparencia.vazio.texto")}
             </Aviso>
           ) : visiveis.length === 0 ? (
-            <p className="mt-8 rounded-2xl border border-dashed border-tinta/20 p-10 text-center text-tinta-suave">
+            <p className="mt-8 rounded-2xl border border-dashed border-tinta/20 p-10 text-center text-tinta-suave whitespace-pre-line">
               {t("transparencia.sem-filtro")}
             </p>
           ) : (

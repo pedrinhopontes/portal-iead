@@ -70,7 +70,7 @@ export default async function CampanhaPorAno({ params }: Props) {
             <div className="rounded-2xl border border-linha bg-areia p-8">
               <Etiqueta tom="neutro">Registro original</Etiqueta>
               <h2 className="mt-4 text-2xl font-semibold">O que temos desta edição</h2>
-              <p className="mt-3 text-tinta-suave">
+              <p className="mt-3 text-tinta-suave whitespace-pre-line">
                 {t("campanha-ano.acervo.texto")}
               </p>
               <a
