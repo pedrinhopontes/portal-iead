@@ -96,6 +96,17 @@ export function Cabecalho({ itens }: { itens: ItemDeMenu[] }) {
             onClick={() => setAberto((v) => !v)}
             aria-expanded={aberto}
             aria-controls="menu-mobile"
+            /*
+              A palavra "Menu" ao lado do ícone é `hidden sm:inline`: some em
+              telas abaixo de 640px. Sem o aria-label, nessas larguras o botão
+              fica só com o ícone — que é decorativo — e um leitor de tela
+              anuncia "botão", sem dizer de quê. Justo no celular, onde este
+              botão é a única forma de navegar.
+
+              A auditoria anterior não pegou porque rodou em largura de
+              desktop, onde o botão nem aparece.
+            */
+            aria-label={aberto ? "Fechar o menu" : "Abrir o menu"}
             className="inline-flex shrink-0 items-center gap-2 rounded-full border border-linha px-3 py-2.5 text-sm font-semibold sm:px-4 xl:hidden"
           >
             <Icone nome={aberto ? "fechar" : "menu"} className="h-5 w-5" />
